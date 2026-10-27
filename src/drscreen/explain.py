@@ -49,7 +49,10 @@ def verdict(r) -> dict:
         return {"kind": "refer", "title": "Referral recommended", "subtitle": f"Referable diabetic retinopathy suspected · most likely {_grade_phrase(name)}"}
     if action == "no_referral":
         return {"kind": "no_referral", "title": "No referral indicated", "subtitle": f"Non-referable by this system · most likely {_grade_phrase(name)}"}
-    return {"kind": "human_review", "title": "Needs a human reviewer", "subtitle": (r.decision or {}).get("reason", "The result is uncertain.")}
+    reason = (r.decision or {}).get("reason", "The result is uncertain.")
+    if reason.startswith("P(referable)"):
+        reason = "The score is too close to the decision threshold to decide automatically."
+    return {"kind": "human_review", "title": "Needs a human reviewer", "subtitle": reason}
 
 
 def confidence(r) -> tuple[str, str]:
@@ -165,8 +168,9 @@ def _uri(arr, max_side: int = 1600, quality: int = 90) -> str:
     return "data:image/jpeg;base64," + base64.b64encode(buf.getvalue()).decode()
 
 
-def _row(label: str, value: str, small: str = "") -> str:
-    return f'<div><dt>{esc(label)}</dt><dd>{esc(value)}{f"<small>{esc(small)}</small>" if small else ""}</dd></div>'
+def _row(label: str, value: str, small: str = "", tip: str = "") -> str:
+    t = f' title="{esc(tip)}"' if tip else ""
+    return f'<div><dt{t}>{esc(label)}</dt><dd>{esc(value)}{f"<small>{esc(small)}</small>" if small else ""}</dd></div>'
 
 
 QUALITY_WORDS = {"good": "Good", "enhance": "Reduced (contrast enhancement applied)", "reject": "Insufficient"}
@@ -185,15 +189,15 @@ def _score_svg(p: float, thr: float, margin: float) -> str:
     band, band_legend = "", ""
     if margin and margin > 0:
         band = f'<rect class="rl-band" x="{X(thr - margin):.1f}" y="38" width="{X(thr + margin) - X(thr - margin):.1f}" height="16"/>'
-        band_legend = f'<text x="{x0}" y="116" text-anchor="start">Hatched: human-review band (threshold ± {margin:.2f})</text>'
+        band_legend = f'<text x="{x0}" y="116" text-anchor="start">hatched: human-review band (± {margin:.2f})</text>'
     ticks = "".join(f'<line class="rl-tick" x1="{X(v):.1f}" y1="42" x2="{X(v):.1f}" y2="50"/>' for v in (0, .25, .5, .75, 1))
     return (f'<div class="rl-score"><svg viewBox="0 0 {W} 122" role="img" aria-label="{esc(label)}"><title>{esc(label)}</title>'
             '<defs><pattern id="rl-hatch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="#80590f" stroke-width="1.3" opacity=".6"/></pattern></defs>'
             f'<rect class="rl-zone-ref" x="{xt:.1f}" y="38" width="{x1 - xt:.1f}" height="16"/>{band}'
             f'<line class="rl-axis" x1="{x0}" y1="46" x2="{x1}" y2="46"/>{ticks}'
             f'<line class="rl-thr" x1="{xt:.1f}" y1="30" x2="{xt:.1f}" y2="62"/>'
-            f'<polygon class="rl-marker" points="{xp - 7:.1f},20 {xp + 7:.1f},20 {xp:.1f},34"/>'
-            f'<text class="rl-lab-strong" x="{clamp(xp, 46, W - 46):.1f}" y="13" text-anchor="middle">score {p:.2f}</text>'
+            f'<g class="rl-mk" style="--dx:{x0 - xp:.1f}px"><polygon class="rl-marker" points="{xp - 7:.1f},20 {xp + 7:.1f},20 {xp:.1f},34"/>'
+            f'<text class="rl-lab-strong" x="{clamp(xp, 46, W - 46):.1f}" y="13" text-anchor="middle">score {p:.2f}</text></g>'
             f'<text x="{x0}" y="74" text-anchor="start">0</text><text x="{x1}" y="74" text-anchor="end">1</text>'
             f'<text x="{clamp(xt, 52, W - 52):.1f}" y="74" text-anchor="middle">threshold {thr:.2f}</text>'
             f'<text x="{x0}" y="98" text-anchor="start" class="rl-lab-strong">◂ No referral</text><text x="{x1}" y="98" text-anchor="end" class="rl-lab-strong">Referral ▸</text>'
@@ -215,37 +219,52 @@ def render_loading_html() -> str:
 
 
 def render_summary_html(r) -> str:
-    """The primary result panel: recommendation, key values, the threshold visual and a short statement of limits."""
+    """The primary result panel: recommendation, three headline numbers, the threshold chart, collapsible details and one line on limits."""
     v = verdict(r)
     accent, _soft = PALETTE[v["kind"]]
     q = r.quality or {}
-    rows = []
-    visual = ""
+    stats, visual, rows = "", "", []
     if r.status == "ok":
         conf, _conf_note = confidence(r)
         p, thr = float(r.p_referable), float(r.threshold)
         margin = float(getattr(r, "review_margin", 0.0) or 0.0)
-        if margin and abs(p - thr) <= margin:
-            rel = f"Inside the review band (±{margin:.2f})"
-        else:
-            rel = f"{'Above' if p >= thr else 'Below'} threshold by {abs(p - thr):.2f}"
+        num, _, gname = (r.grade_name or "? n/a").partition(" ")
+        stats = ('<div class="rl-stats">'
+                 f'<div title="Summed probability of grades 2–4, temperature-scaled"><span class="rl-stat-v rl-count" data-to="{p:.2f}">{p:.2f}</span><span class="rl-stat-l">referable score</span></div>'
+                 f'<div title="Most probable of the five ICDR grades"><span class="rl-stat-v">{esc(num)}</span><span class="rl-stat-l">{esc(gname)}</span></div>'
+                 f'<div title="Heuristic: distance of the score from the threshold"><span class="rl-stat-v rl-stat-word">{esc(conf)}</span><span class="rl-stat-l">confidence</span></div>'
+                 '</div>')
         visual = _score_svg(p, thr, margin)
-        rows = [_row("Predicted grade", r.grade_name or "n/a", "most probable of the five ICDR grades"),
-                _row("Referable-DR score", f"{p:.2f}", "summed probability of grades 2–4, temperature-scaled"),
-                _row("Decision threshold", f"{thr:.2f}", "chosen on validation data for ≥90% sensitivity"),
-                _row("Relative to threshold", rel),
-                _row("Image quality", QUALITY_WORDS.get(q.get("status", ""), "n/a"), (q.get("reason", "") + " (heuristic check)").strip()),
-                _row("Confidence", conf, "heuristic, from distance to the threshold"),
+        rows = [_row("Predicted grade", r.grade_name or "n/a", tip="Most probable of the five ICDR grades"),
+                _row("Referable-DR score", f"{p:.3f}", tip="Summed probability of grades 2–4, temperature-scaled on validation data"),
+                _row("Decision threshold", f"{thr:.3f}", tip="Chosen on validation data for at least 90% sensitivity"),
+                _row("Human-review band", f"± {margin:.3f}" if margin else "not used"),
+                _row("Image quality", QUALITY_WORDS.get(q.get("status", ""), "n/a"), q.get("reason", "")),
+                _row("Confidence", conf, tip="Heuristic, from the distance to the threshold; not a probability of being right"),
                 _row("Model", r.model_name or "n/a")]
     elif r.status == "quality_rejected":
         rows = [_row("Image quality", QUALITY_WORDS["reject"], (q.get("reason", "") + " (heuristic check)").strip()), _row("Prediction", "None made")]
-    note = ("The score comes from a neural-network classifier that has not been validated on your camera or patient population. The quality check and lesion "
-            "findings are heuristics for a reviewer to verify. Nothing here is a diagnosis.") if r.status == "ok" else ""
+    details = ""
+    if rows:
+        kv = f'<dl class="rl-kv">{"".join(rows)}</dl>'
+        details = f'<details class="rl-more"><summary>Details</summary>{kv}</details>' if r.status == "ok" else kv
+    note = "Research model output, not validated for your camera or patient population. Nothing here is a diagnosis." if r.status == "ok" else ""
     note_html = f'<p class="rl-note">{esc(note)}</p>' if note else ""
-    return (f'<section class="rl-panel rl-enter" style="--accent:{accent}" aria-labelledby="rl-res-h"><div class="rl-eyebrow">Screening result</div>'
-            f'<h2 id="rl-res-h" class="rl-reco">{esc(v["title"])}</h2><p class="rl-reco-sub">{esc(v["subtitle"])}</p>{visual}'
-            f'<dl class="rl-kv">{"".join(rows)}</dl>{note_html}</section>')
+    return (f'<section class="rl-panel rl-enter rl-result" style="--accent:{accent}" aria-labelledby="rl-res-h"><div class="rl-eyebrow">Screening result</div>'
+            f'<h2 id="rl-res-h" class="rl-reco">{esc(v["title"])}</h2><p class="rl-reco-sub">{esc(v["subtitle"])}</p>{stats}{visual}'
+            f'{details}{note_html}</section>')
 
+
+def render_analysing_html(image) -> str:
+    """Shown on the image side while the models run: the uploaded photograph with a slow scanning line (no fake progress figures)."""
+    try:
+        src = _uri(image, 1400)
+    except Exception:
+        return ""
+    return ('<section class="rl-viewer rl-scanning" aria-label="Analysing the photograph" aria-busy="true">'
+            '<div class="rl-viewer-bar"><span class="rl-scan-label"><span class="rl-dot"></span>Analysing: quality check, classifier and lesion detector</span></div>'
+            f'<div class="rl-stage-wrap"><div class="rl-stage rl-stage-scan"><img class="rl-img rl-img-scan" src="{src}" alt="Photograph being analysed"><div class="rl-scanline"></div></div></div>'
+            '</section>')
 
 _ICONS = {"in": '<path d="M11 11m-6 0a6 6 0 1 0 12 0a6 6 0 1 0-12 0M20 20l-4.2-4.2M11 8v6M8 11h6"/>', "out": '<path d="M11 11m-6 0a6 6 0 1 0 12 0a6 6 0 1 0-12 0M20 20l-4.2-4.2M8 11h6"/>',
           "fit": '<path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4.5h4.5"/>', "expand": '<path d="M9 4H4v5M15 4h5v5M9 20H4v-5M15 20h5v-5"/>'}

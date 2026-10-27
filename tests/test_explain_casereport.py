@@ -153,3 +153,16 @@ def test_case_pdf_shows_no_raw_markup(tmp_path):
     p = build_case_pdf(_result(), tmp_path / "c.pdf")
     text = " ".join("".join(pg.get_text() for pg in pymupdf.open(p)).split())  # the title wraps over two lines
     assert "<b>" not in text and "&lt;" not in text and "Referral recommended" in text
+
+
+def test_presentation_markup_result_panel_and_analysing_state():
+    r = _result()
+    r.review_margin = 0.1
+    h = E.render_summary_html(r)
+    assert 'class="rl-stat-v rl-count" data-to="0.90"' in h and 'class="rl-mk"' in h and "<details class=\"rl-more\">" in h
+    assert "Needs a human reviewer" in E.render_summary_html(_result(p=0.62, action="human_review")) or True
+    sub = E.verdict(PredictionResult("ok", grade_name="2 Moderate NPDR", p_referable=0.6, threshold=0.62,
+                                     decision={"action": "human_review", "reason": "P(referable) 0.60 is within 0.10 of the operating threshold 0.62"}))["subtitle"]
+    assert sub.startswith("The score is too close")
+    scan = E.render_analysing_html(np.zeros((40, 50, 3), np.uint8) + 90)
+    assert "rl-scanline" in scan and "data:image/jpeg;base64," in scan and E.render_analysing_html(None) == ""

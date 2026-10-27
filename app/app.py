@@ -22,8 +22,8 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from drscreen import INTENDED_USE  # noqa: E402
 from drscreen.casereport import build_case_pdf  # noqa: E402
-from drscreen.explain import (esc, render_calibration_html, render_empty_html, render_gradcam_html, render_interpretation_html, render_lesion_html,  # noqa: E402
-                               render_loading_html, render_summary_html, render_viewer_html)
+from drscreen.explain import (esc, render_analysing_html, render_calibration_html, render_empty_html, render_gradcam_html, render_interpretation_html,  # noqa: E402
+                               render_lesion_html, render_loading_html, render_summary_html, render_viewer_html)
 from drscreen.ui_theme import CSS, HEAD, PRODUCT_NAME, build_theme, disclaimer_html, header_html  # noqa: E402
 from drscreen.metrics import GRADE_NAMES  # noqa: E402
 from drscreen.predict import Predictor  # noqa: E402
@@ -151,8 +151,8 @@ def build_ui(default_model: str | None = None, demo_image: str | None = None):
                     model = gr.Dropdown(choices=models, value=default_model or models[0], label="Model", scale=4, interactive=len(models) > 1)
                     btn = gr.Button("Analyse image", variant="primary", scale=2)
                     clear = gr.Button("New image", scale=1)
-                force = gr.Checkbox(label="Analyse even if the quality check fails (the result will be unreliable)", value=False, elem_classes="rl-small-check")
-                with gr.Accordion("How to use", open=False, elem_classes="rl-accordion"):
+                with gr.Accordion("Options and help", open=False, elem_classes="rl-accordion"):
+                    force = gr.Checkbox(label="Analyse even if the quality check fails (the result will be unreliable)", value=False, elem_classes="rl-small-check")
                     gr.Markdown(HOWTO)
             with gr.Column(scale=5, min_width=320):
                 summary = gr.HTML(render_empty_html(), elem_classes="rl-plain")
@@ -169,17 +169,17 @@ def build_ui(default_model: str | None = None, demo_image: str | None = None):
                     t_cal = gr.HTML(elem_classes="rl-plain")
                 with gr.Tab("Technical details"):
                     t_tech = gr.Markdown()
-        status = ("Models available: " + ", ".join(available_models().keys())) if available_models() else ("No model found. " + (_LOAD_ERROR or "Run the Kaggle download script."))
-        lesion_state = "available" if (ROOT / "artifacts/lesion/lesion_unet.pt").is_file() else "not available (artifacts/lesion missing)"
-        gr.HTML(f'<p class="rl-small" style="margin-top:24px">{esc(status)}. Lesion evidence: {lesion_state}.</p>' + disclaimer_html(), elem_classes="rl-plain")
+        gr.HTML(disclaimer_html(), elem_classes="rl-plain")
 
         outs = [inp, viewer, summary, pdf, details, t_interp, t_cam, t_les, t_cal, t_tech, last]
         keep = gr.update()
 
         def run(image, force_, model_label, prev):
             img = image if image is not None else prev
-            if img is not None:
-                yield [keep, keep, render_loading_html(), gr.update(visible=False), keep, keep, keep, keep, keep, keep, keep]  # honest busy state, no fake progress
+            if img is not None:  # honest busy state: the photograph with a scanning line, no fake progress figures
+                scan = render_analysing_html(img)
+                yield [gr.update(visible=not scan), gr.update(value=scan, visible=bool(scan)), render_loading_html(), gr.update(visible=False),
+                       keep, keep, keep, keep, keep, keep, keep]
             o = analyze_case(img, force_, model_label)
             shown = o["has_image"]
             yield [gr.update(visible=not shown), gr.update(value=o["viewer"], visible=shown), o["summary"], gr.update(value=o["pdf"], visible=bool(o["pdf"])),

@@ -12,7 +12,7 @@ Screenshots use the project's synthetic test fundus (procedurally generated, not
 
 ![Upload screen](docs/screenshots/1-upload.png)
 
-**2. Read the result.** The recommendation (refer, no referral, human review or retake) sits beside the image, with the score plotted against the decision threshold and its review band.
+**2. Read the result.** While the models run, a scanning line sweeps the photograph. The recommendation (refer, no referral, human review or retake) then appears beside it with three headline numbers (score, grade, confidence) and the score plotted against the decision threshold and its review band; the exact values fold away under *Details*.
 
 ![Screening result](docs/screenshots/2-result.png)
 
