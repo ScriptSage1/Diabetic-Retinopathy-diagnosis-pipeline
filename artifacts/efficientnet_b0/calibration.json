@@ -1,0 +1,27 @@
+{
+  "temperature": 2.6885129881798497,
+  "threshold": 0.6276501177541343,
+  "review_margin": 0.17061410502452767,
+  "threshold_rule": "max specificity s.t. validation sensitivity >= 0.90",
+  "fitted_on": "validation split",
+  "quality_thresholds": {
+    "min_fov_fraction": 0.3,
+    "min_fov_completeness": 0.6,
+    "reject_blur": 2.0,
+    "reject_brightness_low": 29.571413219744418,
+    "enhance_brightness_low": 49.28568869957403,
+    "reject_brightness_high": 230.0,
+    "enhance_contrast_low": 9.797923524033157,
+    "reject_contrast_low": 4.898961762016579,
+    "max_saturated_fraction": 0.25,
+    "fitted_from": "800 training images; reject at p1, enhance at p5"
+  },
+  "rule_params": {
+    "min_ma": 12,
+    "min_he": 200,
+    "min_ex": 50,
+    "min_se": 5,
+    "he_per_quadrant": 80,
+    "name": "data-calibrated (fitted on training split)"
+  }
+}

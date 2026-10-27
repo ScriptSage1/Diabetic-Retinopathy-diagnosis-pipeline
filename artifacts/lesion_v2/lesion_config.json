@@ -1,0 +1,25 @@
+{
+  "thresholds": {
+    "MA": 0.835,
+    "HE": 0.79,
+    "EX": 0.635,
+    "SE": 0.42,
+    "OD": 0.95
+  },
+  "min_area": {
+    "MA": 3,
+    "HE": 25,
+    "EX": 12,
+    "SE": 40
+  },
+  "max_area": {
+    "MA": 386,
+    "HE": 13704,
+    "EX": 3745,
+    "SE": 14312
+  },
+  "locator_size": 512,
+  "canvas": 1280,
+  "trained_on": "IDRiD segmentation train (lesions) and localization train (OD/fovea)",
+  "min_area_note": "fixed defaults, canvas pixels"
+}

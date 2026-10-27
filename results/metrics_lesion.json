@@ -1,0 +1,227 @@
+{
+  "config": {
+    "idrid_root": "/kaggle/input/datasets/aaryapatel98/indian-diabetic-retinopathy-image-dataset",
+    "aptos_root": "/kaggle/input/competitions/aptos2019-blindness-detection",
+    "cnn_checkpoint": null,
+    "split_manifest": null,
+    "work_dir": "/kaggle/working",
+    "smoke": false,
+    "iters": 4000,
+    "batch": 8,
+    "patch": 512,
+    "lr": 0.0005,
+    "val_n": 10,
+    "eval_every": 250,
+    "loc_epochs": 40,
+    "loc_size": 512,
+    "num_workers": 4,
+    "seed": 42,
+    "pretrained": true,
+    "pretrained_file": null,
+    "max_minutes": 300,
+    "aptos_limit": null
+  },
+  "environment": {
+    "python": "3.13.15",
+    "torch": "2.11.0+cu128",
+    "cuda_available": true,
+    "gpu": "Tesla T4"
+  },
+  "idrid": {
+    "counts": {
+      "seg_train": 54,
+      "seg_test": 27,
+      "grading_train": 413,
+      "grading_test": 103,
+      "loc_train": 413,
+      "loc_test": 103
+    },
+    "train_images_with_mask": {
+      "MA": 54,
+      "HE": 53,
+      "EX": 54,
+      "SE": 26,
+      "OD": 54
+    },
+    "license": "CC BY 4.0 (Porwal et al., IDRiD, Data 2018;3(3):25); this run used a third-party Kaggle copy of the official release",
+    "note": "A missing mask file is interpreted as 'no lesion of that type in the image' (dataset convention)."
+  },
+  "lesion_training": {
+    "iterations_run": 4000,
+    "best_iteration": 750,
+    "best_val_mean_aupr": 0.5015781112042528,
+    "stop_reason": "completed all iterations",
+    "minutes": 28.4,
+    "n_train_images": 44,
+    "n_val_images": 10,
+    "batch": 8,
+    "patch": 512,
+    "canvas": 1280
+  },
+  "lesion_thresholds_fitted_on_validation": {
+    "MA": 0.8,
+    "HE": 0.44,
+    "EX": 0.9,
+    "SE": 0.795,
+    "OD": 0.385
+  },
+  "lesion_segmentation_idrid_test": {
+    "dataset": "IDRiD official segmentation test split (27 images)",
+    "evaluation_type": "held-out test of the lesion model (images never used for training or selection)",
+    "per_lesion": {
+      "MA": {
+        "aupr": 0.44627329163377116,
+        "n_test_images_with_lesion": 27,
+        "dice": 0.49053012456890865,
+        "iou": 0.32496847572318566,
+        "precision": 0.46693814580941445,
+        "recall": 0.5166329244571474,
+        "threshold": 0.8
+      },
+      "HE": {
+        "aupr": 0.5692559727500746,
+        "n_test_images_with_lesion": 27,
+        "dice": 0.5899027120006097,
+        "iou": 0.4183418527366637,
+        "precision": 0.554275306578959,
+        "recall": 0.6304248138598488,
+        "threshold": 0.44
+      },
+      "EX": {
+        "aupr": 0.332295582573931,
+        "n_test_images_with_lesion": 27,
+        "dice": 0.3961609405863632,
+        "iou": 0.24700791408035638,
+        "precision": 0.8472449089623828,
+        "recall": 0.2585210464775491,
+        "threshold": 0.9
+      },
+      "SE": {
+        "aupr": 0.5978629640522599,
+        "n_test_images_with_lesion": 14,
+        "dice": 0.6420263840214263,
+        "iou": 0.4727826641600645,
+        "precision": 0.624423605568857,
+        "recall": 0.6606504122248413,
+        "threshold": 0.795
+      },
+      "OD": {
+        "aupr": 0.9786085034113534,
+        "n_test_images_with_lesion": 27,
+        "dice": 0.9542582216748402,
+        "iou": 0.9125180244813037,
+        "precision": 0.9379256340059041,
+        "recall": 0.9711697056820762,
+        "threshold": 0.385
+      }
+    },
+    "metric_notes": "pixel-level on the 1280-px retina canvas; Dice == pixel F1; thresholds chosen on validation images",
+    "canvas_px": 1280
+  },
+  "locator_idrid_test": {
+    "n_test": 103,
+    "od_error_px_mean": 89.09423387903267,
+    "od_error_px_median": 78.8040919042178,
+    "fovea_error_px_mean": 132.9169079291802,
+    "fovea_error_px_median": 116.0951365069751,
+    "disc_diameter_px_approx": 526.6829811211198,
+    "fovea_within_1DD": 1.0,
+    "od_within_1DD": 1.0,
+    "note": "errors in ORIGINAL IDRiD pixels (4288x2848 images); DD = median optic-disc diameter measured on validation masks",
+    "val_l1_fraction_of_canvas": 0.021557889878749847,
+    "epochs": 40
+  },
+  "idrid_features": {
+    "n": 516,
+    "n_flagged_duplicate_of_lesion_training": 44
+  },
+  "idrid_cnn": {
+    "checkpoint": "/kaggle/input/notebooks/candyguy/dr-screening-effnet-b0-aptos/artifacts/efficientnet_b0/best.pt",
+    "temperature": 2.6885129881798497,
+    "n": 516
+  },
+  "aptos_features": {
+    "n": 3662,
+    "n_failed": 0,
+    "n_with_split": 3662,
+    "note": "lesion models applied to APTOS WITHOUT any APTOS lesion annotation: domain transfer from IDRiD, performance on APTOS lesions is unmeasured"
+  },
+  "total_minutes": 105.1,
+  "stages": {
+    "environment": {
+      "status": "ok",
+      "seconds": 0.0
+    },
+    "idrid_index": {
+      "status": "ok",
+      "seconds": 1.5
+    },
+    "lesion_unet": {
+      "status": "ok",
+      "seconds": 2122.3
+    },
+    "lesion_eval_idrid_test": {
+      "status": "ok",
+      "seconds": 198.9
+    },
+    "locator": {
+      "status": "ok",
+      "seconds": 789.9
+    },
+    "save_models": {
+      "status": "ok",
+      "seconds": 0.2
+    },
+    "features_idrid_grading": {
+      "status": "ok",
+      "seconds": 770.6
+    },
+    "features_aptos": {
+      "status": "ok",
+      "seconds": 2406.3
+    },
+    "figures": {
+      "status": "ok",
+      "seconds": 13.4
+    }
+  },
+  "locator_final_idrid_test": {
+    "n_test": 103,
+    "od_error_px_median": 23.301934042660015,
+    "od_error_px_mean": 26.258415859720923,
+    "fovea_error_px_median": 128.54953304689556,
+    "fovea_error_px_mean": 140.15473961566937,
+    "od_within_1DD": 1.0,
+    "fovea_within_1DD": 1.0,
+    "disc_diameter_px_approx": 500.0,
+    "share_using_anatomical_prior": 0.009708737864077669,
+    "note": "final estimate = segmented disc + regressor fovea if consistent, else anatomical prior; errors in original IDRiD pixels"
+  },
+  "feature_extraction_run": {
+    "note": "features re-extracted with improved disc/fovea localisation (segmented disc; regressor fovea if consistent, else anatomical prior)",
+    "environment": {
+      "python": "3.13.15",
+      "torch": "2.11.0+cu128",
+      "cuda_available": true,
+      "gpu": "Tesla T4"
+    },
+    "stages": {
+      "environment": {
+        "status": "ok",
+        "seconds": 0.0
+      },
+      "load_models": {
+        "status": "ok",
+        "seconds": 12.6
+      },
+      "features_idrid_grading": {
+        "status": "ok",
+        "seconds": 646.0
+      },
+      "features_aptos": {
+        "status": "ok",
+        "seconds": 2334.1
+      }
+    }
+  }
+}

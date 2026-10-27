@@ -1,0 +1,38 @@
+{
+  "environment": {
+    "status": "ok",
+    "seconds": 0.0
+  },
+  "idrid_index": {
+    "status": "ok",
+    "seconds": 1.5
+  },
+  "lesion_unet": {
+    "status": "ok",
+    "seconds": 2122.3
+  },
+  "lesion_eval_idrid_test": {
+    "status": "ok",
+    "seconds": 198.9
+  },
+  "locator": {
+    "status": "ok",
+    "seconds": 789.9
+  },
+  "save_models": {
+    "status": "ok",
+    "seconds": 0.2
+  },
+  "features_idrid_grading": {
+    "status": "ok",
+    "seconds": 770.6
+  },
+  "features_aptos": {
+    "status": "ok",
+    "seconds": 2406.3
+  },
+  "figures": {
+    "status": "ok",
+    "seconds": 13.4
+  }
+}

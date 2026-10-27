@@ -1,0 +1,282 @@
+{
+ "fundus_locator": {
+  "od": [
+   417.97805048002476,
+   682.3453855682874
+  ],
+  "fovea": [
+   714.7559814453125,
+   771.0146484375
+  ],
+  "location": {
+   "od_source": "segmentation",
+   "fovea_source": "regressor",
+   "fallback": 0,
+   "od_area": 25832.0
+  }
+ },
+ "pixels_3x3": [
+  [
+   [
+    191,
+    118,
+    83
+   ],
+   [
+    180,
+    109,
+    78
+   ],
+   [
+    165,
+    102,
+    74
+   ]
+  ],
+  [
+   [
+    208,
+    126,
+    91
+   ],
+   [
+    189,
+    111,
+    82
+   ],
+   [
+    176,
+    102,
+    75
+   ]
+  ],
+  [
+   [
+    228,
+    129,
+    95
+   ],
+   [
+    203,
+    114,
+    83
+   ],
+   [
+    183,
+    106,
+    77
+   ]
+  ]
+ ],
+ "preprocess": {
+  "original": [
+   2136,
+   3216,
+   3
+  ],
+  "cropped": [
+   2136,
+   2706,
+   3
+  ],
+  "square": [
+   2706,
+   2706,
+   3
+  ],
+  "green_channel_range": [
+   -0.9152660369873047,
+   2.0259103775024414
+  ]
+ },
+ "convolution": {
+  "highlight_value": 730.0
+ },
+ "feature_maps": {
+  "stem_shape": [
+   32,
+   192,
+   192
+  ],
+  "stage3_shape": [
+   40,
+   48,
+   48
+  ],
+  "logits": [
+   -3.0725677013397217,
+   0.02858673594892025,
+   10.017154693603516,
+   1.6856135129928589,
+   -4.953824520111084
+  ]
+ },
+ "effnet": {
+  "shapes": [
+   [
+    "stem",
+    [
+     1,
+     32,
+     192,
+     192
+    ]
+   ],
+   [
+    "stage1",
+    [
+     1,
+     16,
+     192,
+     192
+    ]
+   ],
+   [
+    "stage2",
+    [
+     1,
+     24,
+     96,
+     96
+    ]
+   ],
+   [
+    "stage3",
+    [
+     1,
+     40,
+     48,
+     48
+    ]
+   ],
+   [
+    "stage4",
+    [
+     1,
+     80,
+     24,
+     24
+    ]
+   ],
+   [
+    "stage5",
+    [
+     1,
+     112,
+     24,
+     24
+    ]
+   ],
+   [
+    "stage6",
+    [
+     1,
+     192,
+     12,
+     12
+    ]
+   ],
+   [
+    "stage7",
+    [
+     1,
+     320,
+     12,
+     12
+    ]
+   ],
+   [
+    "head",
+    [
+     1,
+     1280,
+     12,
+     12
+    ]
+   ]
+  ],
+  "params": 4013953,
+  "depth": [
+   1,
+   2,
+   2,
+   3,
+   3,
+   4,
+   1
+  ],
+  "kernels": [
+   3,
+   3,
+   5,
+   3,
+   5,
+   5,
+   3
+  ]
+ },
+ "softmax": {
+  "p1": [
+   0.252,
+   0.042,
+   0.619,
+   0.069,
+   0.019
+  ],
+  "p2": [
+   0.265,
+   0.108,
+   0.416,
+   0.138,
+   0.072
+  ]
+ },
+ "lr": {
+  "steps_per_epoch": 108
+ },
+ "ppv": {
+  "ppv_at_10pct": 0.6989650832129038,
+  "npv_at_10pct": 0.9921203951991052
+ },
+ "bootstrap": {
+  "point": 0.9317073170731708,
+  "lo": 0.8941756272401433,
+  "hi": 0.9628046998660659
+ },
+ "walkthrough": {
+  "image_id": "0318598cfd16",
+  "dataset_grade": 4,
+  "width": 2588,
+  "height": 1958,
+  "quality_status": "good",
+  "quality_reason": "sharpness, illumination, contrast and field of view are acceptable",
+  "model": "ensemble: b0_robust + b3_robust (+flip TTA)",
+  "grade": 2,
+  "grade_name": "2 Moderate NPDR",
+  "probs": [
+   0.0005569317498036965,
+   0.12590655238600723,
+   0.8273923242594347,
+   0.031857053113404754,
+   0.014287138491349764
+  ],
+  "p_referable": 0.8735365158641891,
+  "threshold": 0.6648616816078137,
+  "review_margin": 0.11398215160587356,
+  "decision": "refer",
+  "verdict": "Referral recommended",
+  "confidence": "Moderate",
+  "lesions_available": true,
+  "counts": {
+   "MA": 28,
+   "HE": 27,
+   "EX": 26,
+   "SE": 0
+  },
+  "ex_near_macula": 5,
+  "rule_grade": 1,
+  "cross_check": "classifier_only",
+  "cross_check_message": "The classifier flags referable DR, but the lesions found by the (limited) detector do not meet the rules' referable criteria: the flag is not corroborated by lesion evidence.",
+  "latency_s": 2.9
+ }
+}

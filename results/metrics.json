@@ -1,0 +1,2664 @@
+{
+  "config": {
+    "data_root": "/kaggle/input/competitions",
+    "external_root": null,
+    "work_dir": "/kaggle/working",
+    "cache_dir": "/tmp/drcache",
+    "dataset_name": "APTOS 2019",
+    "smoke": false,
+    "smoke_n": 240,
+    "img_size": 384,
+    "epochs": 30,
+    "batch_size": 24,
+    "lr": 0.0003,
+    "num_workers": 4,
+    "arch": "efficientnet_b0",
+    "pretrained": true,
+    "pretrained_file": null,
+    "seed": 42,
+    "target_sensitivity": 0.9,
+    "max_minutes": 300,
+    "n_boot": 1000,
+    "run_baselines": true,
+    "baseline_epochs": 12,
+    "baseline_img_size": 224,
+    "run_quality": true,
+    "quality_eval_n": 150,
+    "run_gradcam": true,
+    "resume_search_root": "/kaggle/input",
+    "expected_n_labelled": 3662
+  },
+  "stages": {
+    "environment": {
+      "status": "ok",
+      "seconds": 10.0
+    },
+    "data": {
+      "status": "ok",
+      "seconds": 250.3
+    },
+    "train": {
+      "status": "ok",
+      "seconds": 1786.8
+    },
+    "evaluate": {
+      "status": "ok",
+      "seconds": 41.8
+    },
+    "baselines": {
+      "status": "ok",
+      "seconds": 419.2
+    },
+    "quality_gate": {
+      "status": "ok",
+      "seconds": 840.1
+    },
+    "gradcam": {
+      "status": "ok",
+      "seconds": 4.0
+    },
+    "latency": {
+      "status": "ok",
+      "seconds": 6.9
+    },
+    "ablation": {
+      "status": "ok",
+      "seconds": 0.2
+    }
+  },
+  "environment": {
+    "python": "3.13.15",
+    "platform": "Linux-6.18.55+-x86_64-with-glibc2.39",
+    "torch": "2.11.0+cu128",
+    "numpy": "2.1.3",
+    "opencv": "4.14.0",
+    "sklearn": "1.6.1",
+    "cuda_available": true,
+    "timm": "1.0.29",
+    "gpu": "Tesla T4",
+    "gpu_memory_gb": 15.6,
+    "cuda_runtime": "12.8"
+  },
+  "dataset": {
+    "name": "APTOS 2019",
+    "label_tables_used": {
+      "train.csv": 3662
+    },
+    "n_labelled_found": 3662,
+    "n_unreadable": 0,
+    "dropped_before_loading": {
+      "invalid_label": 0,
+      "missing_image": 0,
+      "total_rows": 3662
+    },
+    "n_duplicate_groups": 3512,
+    "n_images_in_merged_groups": 150,
+    "splits": {
+      "train": {
+        "n": 2611,
+        "grade_counts": {
+          "0": 1288,
+          "1": 261,
+          "2": 715,
+          "3": 126,
+          "4": 221
+        },
+        "referable_prevalence": 0.40674071237073917
+      },
+      "val": {
+        "n": 532,
+        "grade_counts": {
+          "0": 260,
+          "1": 52,
+          "2": 156,
+          "3": 29,
+          "4": 35
+        },
+        "referable_prevalence": 0.41353383458646614
+      },
+      "test": {
+        "n": 519,
+        "grade_counts": {
+          "0": 257,
+          "1": 57,
+          "2": 128,
+          "3": 38,
+          "4": 39
+        },
+        "referable_prevalence": 0.394990366088632
+      }
+    },
+    "grade_counts_total": {
+      "0": 1805,
+      "1": 370,
+      "2": 999,
+      "3": 193,
+      "4": 295
+    },
+    "img_size": 384,
+    "split_method": "stratified on grade, group-aware (exact + near-duplicate photos kept together), seed 42",
+    "patient_level_split": false,
+    "limitation": "APTOS 2019 provides no patient/eye identifiers, so patient-level (left/right eye) separation could not be enforced; only exact/near-duplicate image grouping was used. Test results may be optimistic if both eyes of a patient are present.",
+    "smoke_subset": false
+  },
+  "run": {
+    "run_dir": "/kaggle/working/artifacts/efficientnet_b0",
+    "epochs_completed": 29,
+    "best_epoch": 21,
+    "best_monitor": 0.9076087206547392,
+    "stop_reason": "early stopping: no improvement in validation qwk for 8 epochs",
+    "device": "cuda",
+    "train_seconds": 1776.3638002872467,
+    "best_path": "/kaggle/working/artifacts/efficientnet_b0/best.pt",
+    "last_path": "/kaggle/working/artifacts/efficientnet_b0/last.pt",
+    "config": {
+      "arch": "efficientnet_b0",
+      "img_size": 384,
+      "epochs": 30,
+      "batch_size": 24,
+      "lr": 0.0003,
+      "weight_decay": 0.01,
+      "warmup_epochs": 1.0,
+      "drop_rate": 0.3,
+      "label_smoothing": 0.0,
+      "class_weight_power": 0.5,
+      "patience": 8,
+      "monitor": "qwk",
+      "amp": true,
+      "num_workers": 4,
+      "seed": 42,
+      "pretrained": true,
+      "pretrained_file": null,
+      "use_ben_graham": true,
+      "max_minutes": 300,
+      "resume": true,
+      "out_dir": "/kaggle/working/artifacts",
+      "run_name": "efficientnet_b0",
+      "max_train_batches": null
+    }
+  },
+  "checkpoint_reload_check": {
+    "max_abs_diff": 0.0,
+    "identical_within_tol": true,
+    "finite": true
+  },
+  "validation_threshold_selection": {
+    "threshold": 0.6276501177541343,
+    "rule": "max specificity s.t. validation sensitivity >= 0.90",
+    "validation_sensitivity": 0.9,
+    "validation_specificity": 0.9391025641025641,
+    "fitted_on": "validation",
+    "temperature": 2.6885129881798497,
+    "review_margin": 0.17061410502452767,
+    "val_nll_before": 0.6746589541652102,
+    "val_nll_after": 0.4405387047205288
+  },
+  "internal_holdout": {
+    "dataset": "APTOS 2019 internal test split",
+    "evaluation_type": "internal holdout (same source as training)",
+    "n_samples": 519,
+    "positive_class": "referable DR (ICDR grade >= 2)",
+    "screening": {
+      "threshold": 0.6276501177541343,
+      "n": 519,
+      "n_positive": 205,
+      "n_negative": 314,
+      "prevalence": 0.394990366088632,
+      "tp": 191,
+      "fp": 14,
+      "tn": 300,
+      "fn": 14,
+      "sensitivity": 0.9317073170731708,
+      "specificity": 0.9554140127388535,
+      "precision": 0.9317073170731708,
+      "npv": 0.9554140127388535,
+      "balanced_accuracy": 0.9435606649060122,
+      "f1": 0.9317073170731708,
+      "roc_auc": 0.9870902594376262,
+      "pr_auc": 0.9790653378988377
+    },
+    "grades": {
+      "per_grade": {
+        "0": {
+          "name": "0 No DR",
+          "precision": 0.9884169884169884,
+          "recall": 0.9961089494163424,
+          "f1": 0.9922480620155039,
+          "support": 257
+        },
+        "1": {
+          "name": "1 Mild NPDR",
+          "precision": 0.8260869565217391,
+          "recall": 0.6666666666666666,
+          "f1": 0.7378640776699029,
+          "support": 57
+        },
+        "2": {
+          "name": "2 Moderate NPDR",
+          "precision": 0.6533333333333333,
+          "recall": 0.765625,
+          "f1": 0.7050359712230216,
+          "support": 128
+        },
+        "3": {
+          "name": "3 Severe NPDR",
+          "precision": 0.4358974358974359,
+          "recall": 0.4473684210526316,
+          "f1": 0.44155844155844154,
+          "support": 38
+        },
+        "4": {
+          "name": "4 Proliferative DR",
+          "precision": 0.88,
+          "recall": 0.5641025641025641,
+          "f1": 0.6875,
+          "support": 39
+        }
+      },
+      "confusion_matrix": [
+        [
+          256,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          2,
+          38,
+          17,
+          0,
+          0
+        ],
+        [
+          1,
+          7,
+          98,
+          20,
+          2
+        ],
+        [
+          0,
+          0,
+          20,
+          17,
+          1
+        ],
+        [
+          0,
+          1,
+          14,
+          2,
+          22
+        ]
+      ],
+      "macro_f1": 0.712841310493374,
+      "balanced_accuracy_5": 0.6879743202476408,
+      "accuracy_5": 0.8304431599229287,
+      "qwk": 0.9100260040450737
+    },
+    "calibration": {
+      "ece_top_label_5grade": 0.042234062485867724,
+      "ece_referable": 0.02277288563033461,
+      "brier_referable": 0.041185299437575616,
+      "nll_5grade": 0.44546819485715444,
+      "ece_bins": 15,
+      "ece_binning": "equal-width bins on [0,1], weighted by bin size"
+    },
+    "confidence_intervals": {
+      "sensitivity": {
+        "lo": 0.8957292919289808,
+        "hi": 0.9637323283239162,
+        "n_valid": 1000
+      },
+      "specificity": {
+        "lo": 0.9327471322537112,
+        "hi": 0.9756904187426232,
+        "n_valid": 1000
+      },
+      "precision": {
+        "lo": 0.8967391304347826,
+        "hi": 0.964449494949495,
+        "n_valid": 1000
+      },
+      "npv": {
+        "lo": 0.9314641744548287,
+        "hi": 0.9753245513554791,
+        "n_valid": 1000
+      },
+      "roc_auc": {
+        "lo": 0.9787826855671702,
+        "hi": 0.9936405504172092,
+        "n_valid": 1000
+      },
+      "pr_auc": {
+        "lo": 0.9644111993145328,
+        "hi": 0.9905282483388774,
+        "n_valid": 1000
+      },
+      "balanced_accuracy": {
+        "lo": 0.9204257939822373,
+        "hi": 0.9632592097144007,
+        "n_valid": 1000
+      },
+      "f1": {
+        "lo": 0.9036507971853568,
+        "hi": 0.9555570060922541,
+        "n_valid": 1000
+      },
+      "qwk": {
+        "lo": 0.8841308439027126,
+        "hi": 0.9304737754509192,
+        "n_valid": 1000
+      },
+      "macro_f1": {
+        "lo": 0.6563887711727892,
+        "hi": 0.7583794411528287,
+        "n_valid": 1000
+      },
+      "accuracy_5": {
+        "lo": 0.7957610789980732,
+        "hi": 0.859344894026975,
+        "n_valid": 1000
+      },
+      "balanced_accuracy_5": {
+        "lo": 0.6328481611836667,
+        "hi": 0.73964221548472,
+        "n_valid": 1000
+      },
+      "brier": {
+        "lo": 0.03077852762015066,
+        "hi": 0.0538179753698694,
+        "n_valid": 1000
+      },
+      "_method": {
+        "type": "percentile bootstrap",
+        "n_boot": 1000,
+        "seed": 42,
+        "alpha": 0.05,
+        "n_observations": 519,
+        "note": "images treated as independent; no patient grouping available"
+      }
+    },
+    "calibration_uncalibrated": {
+      "ece_top_label_5grade": 0.10330192016640424,
+      "ece_referable": 0.033200604357397204,
+      "brier_referable": 0.04309501473388212,
+      "nll_5grade": 0.6667137612789148,
+      "ece_bins": 15,
+      "ece_binning": "equal-width bins on [0,1], weighted by bin size"
+    }
+  },
+  "internal_holdout_default_threshold_0.5": {
+    "threshold": 0.5,
+    "n": 519,
+    "n_positive": 205,
+    "n_negative": 314,
+    "prevalence": 0.394990366088632,
+    "tp": 196,
+    "fp": 18,
+    "tn": 296,
+    "fn": 9,
+    "sensitivity": 0.9560975609756097,
+    "specificity": 0.9426751592356688,
+    "precision": 0.9158878504672897,
+    "npv": 0.9704918032786886,
+    "balanced_accuracy": 0.9493863601056393,
+    "f1": 0.9355608591885441,
+    "roc_auc": 0.9870902594376262,
+    "pr_auc": 0.9790653378988377
+  },
+  "validation_split_reference": {
+    "dataset": "APTOS 2019 validation split",
+    "evaluation_type": "validation (used for threshold/temperature/checkpoint selection; NOT unbiased)",
+    "n_samples": 532,
+    "positive_class": "referable DR (ICDR grade >= 2)",
+    "screening": {
+      "threshold": 0.6276501177541343,
+      "n": 532,
+      "n_positive": 220,
+      "n_negative": 312,
+      "prevalence": 0.41353383458646614,
+      "tp": 198,
+      "fp": 19,
+      "tn": 293,
+      "fn": 22,
+      "sensitivity": 0.9,
+      "specificity": 0.9391025641025641,
+      "precision": 0.9124423963133641,
+      "npv": 0.9301587301587302,
+      "balanced_accuracy": 0.9195512820512821,
+      "f1": 0.9061784897025171,
+      "roc_auc": 0.9801354895104895,
+      "pr_auc": 0.9616620823898636
+    },
+    "grades": {
+      "per_grade": {
+        "0": {
+          "name": "0 No DR",
+          "precision": 0.9810606060606061,
+          "recall": 0.9961538461538462,
+          "f1": 0.9885496183206107,
+          "support": 260
+        },
+        "1": {
+          "name": "1 Mild NPDR",
+          "precision": 0.6153846153846154,
+          "recall": 0.46153846153846156,
+          "f1": 0.5274725274725274,
+          "support": 52
+        },
+        "2": {
+          "name": "2 Moderate NPDR",
+          "precision": 0.7471264367816092,
+          "recall": 0.8333333333333334,
+          "f1": 0.787878787878788,
+          "support": 156
+        },
+        "3": {
+          "name": "3 Severe NPDR",
+          "precision": 0.37037037037037035,
+          "recall": 0.3448275862068966,
+          "f1": 0.35714285714285715,
+          "support": 29
+        },
+        "4": {
+          "name": "4 Proliferative DR",
+          "precision": 0.6428571428571429,
+          "recall": 0.5142857142857142,
+          "f1": 0.5714285714285714,
+          "support": 35
+        }
+      },
+      "confusion_matrix": [
+        [
+          259,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          24,
+          23,
+          0,
+          1
+        ],
+        [
+          1,
+          12,
+          130,
+          11,
+          2
+        ],
+        [
+          0,
+          0,
+          12,
+          10,
+          7
+        ],
+        [
+          0,
+          2,
+          9,
+          6,
+          18
+        ]
+      ],
+      "macro_f1": 0.646494472448671,
+      "balanced_accuracy_5": 0.6300277883036504,
+      "accuracy_5": 0.8289473684210527,
+      "qwk": 0.9076087206547392
+    },
+    "calibration": {
+      "ece_top_label_5grade": 0.04480662698568783,
+      "ece_referable": 0.018368132406233844,
+      "brier_referable": 0.050577169518128295,
+      "nll_5grade": 0.4405387047205288,
+      "ece_bins": 15,
+      "ece_binning": "equal-width bins on [0,1], weighted by bin size"
+    },
+    "confidence_intervals": {
+      "sensitivity": {
+        "lo": 0.8594938016528926,
+        "hi": 0.9395348837209302,
+        "n_valid": 200
+      },
+      "specificity": {
+        "lo": 0.9162379421221865,
+        "hi": 0.9607938320959452,
+        "n_valid": 200
+      },
+      "precision": {
+        "lo": 0.8736573322510822,
+        "hi": 0.9452781546811397,
+        "n_valid": 200
+      },
+      "npv": {
+        "lo": 0.8961038961038961,
+        "hi": 0.9581993569131833,
+        "n_valid": 200
+      },
+      "roc_auc": {
+        "lo": 0.9688796501463145,
+        "hi": 0.9889762490488958,
+        "n_valid": 200
+      },
+      "pr_auc": {
+        "lo": 0.9320956932537949,
+        "hi": 0.9840184096877762,
+        "n_valid": 200
+      },
+      "balanced_accuracy": {
+        "lo": 0.8965513341423442,
+        "hi": 0.9419341490985633,
+        "n_valid": 200
+      },
+      "f1": {
+        "lo": 0.8783783783783784,
+        "hi": 0.9327503736920778,
+        "n_valid": 200
+      },
+      "qwk": {
+        "lo": 0.8866147789523282,
+        "hi": 0.9347513630396143,
+        "n_valid": 200
+      },
+      "macro_f1": {
+        "lo": 0.5896191015604235,
+        "hi": 0.702334277534679,
+        "n_valid": 200
+      },
+      "accuracy_5": {
+        "lo": 0.7969454887218045,
+        "hi": 0.8628289473684211,
+        "n_valid": 200
+      },
+      "balanced_accuracy_5": {
+        "lo": 0.5799726419317639,
+        "hi": 0.6884912890846747,
+        "n_valid": 200
+      },
+      "brier": {
+        "lo": 0.03839050992292094,
+        "hi": 0.06299461260578529,
+        "n_valid": 200
+      },
+      "_method": {
+        "type": "percentile bootstrap",
+        "n_boot": 200,
+        "seed": 42,
+        "alpha": 0.05,
+        "n_observations": 532,
+        "note": "images treated as independent; no patient grouping available"
+      }
+    }
+  },
+  "baselines": {
+    "Majority-class prior (no image information)": {
+      "sensitivity": 1.0,
+      "specificity": 0.0,
+      "roc_auc": 0.5,
+      "pr_auc": 0.394990366088632,
+      "qwk": 0.0,
+      "threshold": 0.40674071237073917,
+      "n": 519,
+      "tp": 205,
+      "fp": 314,
+      "tn": 0,
+      "fn": 0
+    },
+    "Hand-crafted features + gradient boosting": {
+      "sensitivity": 0.9414634146341463,
+      "specificity": 0.8343949044585988,
+      "roc_auc": 0.9575889389467143,
+      "pr_auc": 0.9288384219824031,
+      "qwk": 0.7550941114065525,
+      "threshold": 0.20358499334060934,
+      "n": 519,
+      "tp": 193,
+      "fp": 52,
+      "tn": 262,
+      "fn": 12
+    },
+    "Small CNN from scratch (224px)": {
+      "sensitivity": 0.9609756097560975,
+      "specificity": 0.9044585987261147,
+      "roc_auc": 0.9780487804878047,
+      "pr_auc": 0.9523294265940764,
+      "qwk": 0.8500276822658663,
+      "threshold": 0.2777011246309111,
+      "n": 519,
+      "tp": 197,
+      "fp": 30,
+      "tn": 284,
+      "fn": 8,
+      "epochs_completed": 12
+    },
+    "EfficientNet-B0 transfer learning (384px)": {
+      "sensitivity": 0.9317073170731708,
+      "specificity": 0.9554140127388535,
+      "roc_auc": 0.9870902594376262,
+      "pr_auc": 0.9790653378988377,
+      "qwk": 0.9100260040450737,
+      "threshold": 0.6276501177541343,
+      "n": 519,
+      "tp": 191,
+      "fp": 14,
+      "tn": 300,
+      "fn": 14
+    }
+  },
+  "paired_comparison_primary_minus_baseline": {
+    "Majority-class prior (no image information)": {
+      "roc_auc": {
+        "metric": "roc_auc",
+        "point_diff": 0.4870902594376262,
+        "lo": 0.4787337268865902,
+        "hi": 0.493368752912038,
+        "n_valid": 500,
+        "n_boot": 500,
+        "seed": 42
+      },
+      "qwk": {
+        "metric": "qwk",
+        "point_diff": 0.9100260040450737,
+        "lo": 0.883338876928827,
+        "hi": 0.9309403467528297,
+        "n_valid": 500,
+        "n_boot": 500,
+        "seed": 42
+      }
+    },
+    "Hand-crafted features + gradient boosting": {
+      "roc_auc": {
+        "metric": "roc_auc",
+        "point_diff": 0.02950132049091192,
+        "lo": 0.015668838605676357,
+        "hi": 0.04680031924597141,
+        "n_valid": 500,
+        "n_boot": 500,
+        "seed": 42
+      },
+      "qwk": {
+        "metric": "qwk",
+        "point_diff": 0.15493189263852125,
+        "lo": 0.10847666852590895,
+        "hi": 0.20184358103304484,
+        "n_valid": 500,
+        "n_boot": 500,
+        "seed": 42
+      }
+    },
+    "Small CNN from scratch (224px)": {
+      "roc_auc": {
+        "metric": "roc_auc",
+        "point_diff": 0.009041478949821435,
+        "lo": -0.0014200742139480159,
+        "hi": 0.020794434194985126,
+        "n_valid": 500,
+        "n_boot": 500,
+        "seed": 42
+      },
+      "qwk": {
+        "metric": "qwk",
+        "point_diff": 0.059998321779207386,
+        "lo": 0.022476520775894238,
+        "hi": 0.09631043450526436,
+        "n_valid": 500,
+        "n_boot": 500,
+        "seed": 42
+      }
+    }
+  },
+  "quality": {
+    "method": "heuristic rules (Laplacian sharpness, illumination, contrast, FOV); NOT a model trained on quality labels",
+    "thresholds": {
+      "min_fov_fraction": 0.3,
+      "min_fov_completeness": 0.6,
+      "reject_blur": 2.0,
+      "reject_brightness_low": 29.571413219744418,
+      "enhance_brightness_low": 49.28568869957403,
+      "reject_brightness_high": 230.0,
+      "enhance_contrast_low": 9.797923524033157,
+      "reject_contrast_low": 4.898961762016579,
+      "max_saturated_fraction": 0.25,
+      "fitted_from": "800 training images; reject at p1, enhance at p5"
+    },
+    "clean": {
+      "n": 519,
+      "good": 452,
+      "enhance": 48,
+      "reject": 19
+    },
+    "degradation": [
+      {
+        "kind": "blur",
+        "severity": 1,
+        "n": 150,
+        "reject": 1.0,
+        "enhance": 0.0,
+        "good": 0.0
+      },
+      {
+        "kind": "blur",
+        "severity": 2,
+        "n": 150,
+        "reject": 1.0,
+        "enhance": 0.0,
+        "good": 0.0
+      },
+      {
+        "kind": "blur",
+        "severity": 3,
+        "n": 150,
+        "reject": 1.0,
+        "enhance": 0.0,
+        "good": 0.0
+      },
+      {
+        "kind": "dark",
+        "severity": 1,
+        "n": 150,
+        "reject": 0.48,
+        "enhance": 0.47333333333333333,
+        "good": 0.04666666666666667
+      },
+      {
+        "kind": "dark",
+        "severity": 2,
+        "n": 150,
+        "reject": 0.9466666666666667,
+        "enhance": 0.05333333333333334,
+        "good": 0.0
+      },
+      {
+        "kind": "dark",
+        "severity": 3,
+        "n": 150,
+        "reject": 0.98,
+        "enhance": 0.02,
+        "good": 0.0
+      },
+      {
+        "kind": "overexposed",
+        "severity": 1,
+        "n": 150,
+        "reject": 0.013333333333333334,
+        "enhance": 0.02666666666666667,
+        "good": 0.96
+      },
+      {
+        "kind": "overexposed",
+        "severity": 2,
+        "n": 150,
+        "reject": 0.006666666666666667,
+        "enhance": 0.0,
+        "good": 0.9933333333333333
+      },
+      {
+        "kind": "overexposed",
+        "severity": 3,
+        "n": 150,
+        "reject": 0.15333333333333332,
+        "enhance": 0.0,
+        "good": 0.8466666666666667
+      },
+      {
+        "kind": "low_contrast",
+        "severity": 1,
+        "n": 150,
+        "reject": 0.28,
+        "enhance": 0.0,
+        "good": 0.72
+      },
+      {
+        "kind": "low_contrast",
+        "severity": 2,
+        "n": 150,
+        "reject": 0.8533333333333334,
+        "enhance": 0.0,
+        "good": 0.14666666666666667
+      },
+      {
+        "kind": "low_contrast",
+        "severity": 3,
+        "n": 150,
+        "reject": 1.0,
+        "enhance": 0.0,
+        "good": 0.0
+      },
+      {
+        "kind": "jpeg",
+        "severity": 1,
+        "n": 150,
+        "reject": 0.05333333333333334,
+        "enhance": 0.12666666666666668,
+        "good": 0.82
+      },
+      {
+        "kind": "jpeg",
+        "severity": 2,
+        "n": 150,
+        "reject": 0.05333333333333334,
+        "enhance": 0.12,
+        "good": 0.8266666666666667
+      },
+      {
+        "kind": "jpeg",
+        "severity": 3,
+        "n": 150,
+        "reject": 0.013333333333333334,
+        "enhance": 0.06,
+        "good": 0.9266666666666666
+      },
+      {
+        "kind": "cropped_fov",
+        "severity": 1,
+        "n": 150,
+        "reject": 0.06,
+        "enhance": 0.08666666666666667,
+        "good": 0.8533333333333334
+      },
+      {
+        "kind": "cropped_fov",
+        "severity": 2,
+        "n": 150,
+        "reject": 0.09333333333333334,
+        "enhance": 0.08666666666666667,
+        "good": 0.82
+      },
+      {
+        "kind": "cropped_fov",
+        "severity": 3,
+        "n": 150,
+        "reject": 1.0,
+        "enhance": 0.0,
+        "good": 0.0
+      }
+    ],
+    "model_under_degradation": [
+      {
+        "condition": "clean (same subset)",
+        "n": 150,
+        "rejected_share": 0.06666666666666667,
+        "ungated_sensitivity": 0.9555555555555556,
+        "ungated_specificity": 0.8,
+        "ungated_auc": 0.9648148148148148,
+        "gated_analysed_sensitivity": 0.9523809523809523,
+        "gated_analysed_specificity": 0.8035714285714286,
+        "conservative_sensitivity": 0.9555555555555556,
+        "conservative_specificity": 0.75
+      },
+      {
+        "condition": "blur (severity 2)",
+        "n": 150,
+        "rejected_share": 1.0,
+        "ungated_sensitivity": 0.022222222222222223,
+        "ungated_specificity": 1.0,
+        "ungated_auc": 0.8101851851851852,
+        "gated_analysed_sensitivity": null,
+        "gated_analysed_specificity": null,
+        "conservative_sensitivity": 1.0,
+        "conservative_specificity": 0.0
+      },
+      {
+        "condition": "dark (severity 2)",
+        "n": 150,
+        "rejected_share": 0.9466666666666667,
+        "ungated_sensitivity": 0.9444444444444444,
+        "ungated_specificity": 0.8166666666666667,
+        "ungated_auc": 0.9390740740740742,
+        "gated_analysed_sensitivity": 1.0,
+        "gated_analysed_specificity": 1.0,
+        "conservative_sensitivity": 1.0,
+        "conservative_specificity": 0.016666666666666666
+      },
+      {
+        "condition": "overexposed (severity 2)",
+        "n": 150,
+        "rejected_share": 0.006666666666666667,
+        "ungated_sensitivity": 0.9666666666666667,
+        "ungated_specificity": 0.7,
+        "ungated_auc": 0.9116666666666666,
+        "gated_analysed_sensitivity": 0.9662921348314607,
+        "gated_analysed_specificity": 0.7,
+        "conservative_sensitivity": 0.9666666666666667,
+        "conservative_specificity": 0.7
+      },
+      {
+        "condition": "low_contrast (severity 2)",
+        "n": 150,
+        "rejected_share": 0.8533333333333334,
+        "ungated_sensitivity": 0.9333333333333333,
+        "ungated_specificity": 0.7666666666666667,
+        "ungated_auc": 0.9175925925925926,
+        "gated_analysed_sensitivity": 1.0,
+        "gated_analysed_specificity": 0.6666666666666666,
+        "conservative_sensitivity": 1.0,
+        "conservative_specificity": 0.06666666666666667
+      },
+      {
+        "condition": "jpeg (severity 2)",
+        "n": 150,
+        "rejected_share": 0.05333333333333334,
+        "ungated_sensitivity": 1.0,
+        "ungated_specificity": 0.05,
+        "ungated_auc": 0.8116666666666666,
+        "gated_analysed_sensitivity": 1.0,
+        "gated_analysed_specificity": 0.05172413793103448,
+        "conservative_sensitivity": 1.0,
+        "conservative_specificity": 0.05
+      },
+      {
+        "condition": "cropped_fov (severity 2)",
+        "n": 150,
+        "rejected_share": 0.09333333333333334,
+        "ungated_sensitivity": 0.9333333333333333,
+        "ungated_specificity": 0.8666666666666667,
+        "ungated_auc": 0.9614814814814815,
+        "gated_analysed_sensitivity": 0.9382716049382716,
+        "gated_analysed_specificity": 0.8909090909090909,
+        "conservative_sensitivity": 0.9444444444444444,
+        "conservative_specificity": 0.8166666666666667
+      }
+    ],
+    "rejected_examples": [
+      {
+        "image_id": "026dcd9af143",
+        "true_grade": 2,
+        "reason": "image is too blurry / out of focus (sharpness 1.4 < 2.0); please recapture"
+      },
+      {
+        "image_id": "0415fc68b176",
+        "true_grade": 2,
+        "reason": "image is too blurry / out of focus (sharpness 1.5 < 2.0); please recapture"
+      },
+      {
+        "image_id": "1e8a1fdee5b9",
+        "true_grade": 1,
+        "reason": "image is too blurry / out of focus (sharpness 2.0 < 2.0); please recapture"
+      },
+      {
+        "image_id": "51d0034d177d",
+        "true_grade": 2,
+        "reason": "image is too blurry / out of focus (sharpness 1.6 < 2.0); please recapture"
+      },
+      {
+        "image_id": "58ccba7eec9c",
+        "true_grade": 1,
+        "reason": "image is too blurry / out of focus (sharpness 2.0 < 2.0); please recapture"
+      },
+      {
+        "image_id": "681c3c115684",
+        "true_grade": 2,
+        "reason": "image is too blurry / out of focus (sharpness 1.5 < 2.0); please recapture"
+      },
+      {
+        "image_id": "75a4343b12f9",
+        "true_grade": 0,
+        "reason": "image is too blurry / out of focus (sharpness 1.9 < 2.0); please recapture"
+      },
+      {
+        "image_id": "8ff863f8874f",
+        "true_grade": 1,
+        "reason": "image is too blurry / out of focus (sharpness 1.7 < 2.0); please recapture"
+      },
+      {
+        "image_id": "95e732e043a1",
+        "true_grade": 4,
+        "reason": "image is too blurry / out of focus (sharpness 2.0 < 2.0); please recapture"
+      },
+      {
+        "image_id": "98e8adcf085c",
+        "true_grade": 2,
+        "reason": "image is too blurry / out of focus (sharpness 1.4 < 2.0); please recapture"
+      },
+      {
+        "image_id": "99ecdb41d5e7",
+        "true_grade": 1,
+        "reason": "image is too blurry / out of focus (sharpness 2.0 < 2.0); please recapture"
+      },
+      {
+        "image_id": "9a496b1e20f9",
+        "true_grade": 4,
+        "reason": "image is too blurry / out of focus (sharpness 1.9 < 2.0); please recapture"
+      },
+      {
+        "image_id": "a47432cd41e7",
+        "true_grade": 1,
+        "reason": "image is too blurry / out of focus (sharpness 2.0 < 2.0); please recapture"
+      },
+      {
+        "image_id": "b8ebedd382de",
+        "true_grade": 1,
+        "reason": "image is too blurry / out of focus (sharpness 2.0 < 2.0); please recapture"
+      },
+      {
+        "image_id": "bc34ed91c9bc",
+        "true_grade": 4,
+        "reason": "image is too blurry / out of focus (sharpness 1.9 < 2.0); please recapture"
+      },
+      {
+        "image_id": "ca30a97e9d13",
+        "true_grade": 1,
+        "reason": "image is too blurry / out of focus (sharpness 1.8 < 2.0); please recapture"
+      },
+      {
+        "image_id": "ca9c912ebad7",
+        "true_grade": 2,
+        "reason": "image is too blurry / out of focus (sharpness 1.9 < 2.0); please recapture"
+      },
+      {
+        "image_id": "e821c1b6417a",
+        "true_grade": 4,
+        "reason": "image is too blurry / out of focus (sharpness 1.3 < 2.0); please recapture"
+      },
+      {
+        "image_id": "f72adcac5638",
+        "true_grade": 4,
+        "reason": "image is too blurry / out of focus (sharpness 1.7 < 2.0); please recapture"
+      }
+    ],
+    "pipeline_on_clean_test": {
+      "gate_conservative_review_off": {
+        "n": 519,
+        "n_recapture": 19,
+        "n_human_review": 0,
+        "n_auto": 500,
+        "coverage_auto": 0.9633911368015414,
+        "analysed_only": {
+          "threshold": 0.5,
+          "n": 500,
+          "n_positive": 194,
+          "n_negative": 306,
+          "prevalence": 0.388,
+          "tp": 177,
+          "fp": 14,
+          "tn": 292,
+          "fn": 17,
+          "sensitivity": 0.9123711340206185,
+          "specificity": 0.954248366013072,
+          "precision": 0.9267015706806283,
+          "npv": 0.9449838187702265,
+          "balanced_accuracy": 0.9333097500168452,
+          "f1": 0.9194805194805195,
+          "roc_auc": 0.9333097500168452,
+          "pr_auc": 0.8794957629405733
+        },
+        "conservative": {
+          "threshold": 0.5,
+          "n": 519,
+          "n_positive": 205,
+          "n_negative": 314,
+          "prevalence": 0.394990366088632,
+          "tp": 188,
+          "fp": 22,
+          "tn": 292,
+          "fn": 17,
+          "sensitivity": 0.9170731707317074,
+          "specificity": 0.9299363057324841,
+          "precision": 0.8952380952380953,
+          "npv": 0.9449838187702265,
+          "balanced_accuracy": 0.9235047382320958,
+          "f1": 0.9060240963855423,
+          "roc_auc": 0.9235047382320957,
+          "pr_auc": 0.8537541372110666
+        },
+        "referral_rate_conservative": 0.4046242774566474,
+        "referable_in_recapture": 11,
+        "referable_in_human_review": 0
+      },
+      "gate_plus_review_band": {
+        "n": 519,
+        "n_recapture": 19,
+        "n_human_review": 40,
+        "n_auto": 460,
+        "coverage_auto": 0.8863198458574181,
+        "analysed_only": {
+          "threshold": 0.5,
+          "n": 460,
+          "n_positive": 169,
+          "n_negative": 291,
+          "prevalence": 0.3673913043478261,
+          "tp": 157,
+          "fp": 5,
+          "tn": 286,
+          "fn": 12,
+          "sensitivity": 0.9289940828402367,
+          "specificity": 0.9828178694158075,
+          "precision": 0.9691358024691358,
+          "npv": 0.959731543624161,
+          "balanced_accuracy": 0.9559059761280221,
+          "f1": 0.9486404833836858,
+          "roc_auc": 0.9559059761280221,
+          "pr_auc": 0.9264083824841907
+        },
+        "conservative": {
+          "threshold": 0.5,
+          "n": 519,
+          "n_positive": 205,
+          "n_negative": 314,
+          "prevalence": 0.394990366088632,
+          "tp": 193,
+          "fp": 28,
+          "tn": 286,
+          "fn": 12,
+          "sensitivity": 0.9414634146341463,
+          "specificity": 0.910828025477707,
+          "precision": 0.8733031674208145,
+          "npv": 0.959731543624161,
+          "balanced_accuracy": 0.9261457200559267,
+          "f1": 0.9061032863849765,
+          "roc_auc": 0.9261457200559267,
+          "pr_auc": 0.8453043692940525
+        },
+        "referral_rate_conservative": 0.4258188824662813,
+        "referable_in_recapture": 11,
+        "referable_in_human_review": 25
+      }
+    },
+    "note": "degradation detection rates measure sensitivity to SYNTHETIC defects only; there are no genuine quality labels (e.g. EyeQ) here."
+  },
+  "gradcam": {
+    "n_visualised": 10,
+    "randomization_spearman_per_image": [
+      0.26097279306161936,
+      0.09786842192401671,
+      0.07742141894661278
+    ],
+    "randomization_spearman_mean": 0.1454208779774163,
+    "note": "Spearman between trained-model and weight-randomised Grad-CAM maps on 3 images; values near 0 mean the map depends on learned weights. Not a proof of lesion localisation.",
+    "n_false_negatives_listed": 5,
+    "n_false_positives_listed": 5
+  },
+  "latency": {
+    "device": "Tesla T4",
+    "image_size": 384,
+    "precision": "AMP fp16",
+    "model_forward_ms_per_batch_bs1": 8.56,
+    "model_forward_ms_per_image_bs1": 8.56,
+    "model_forward_ms_per_batch_bs16": 29.48,
+    "model_forward_ms_per_image_bs16": 1.84,
+    "preprocess_plus_quality_ms_per_image_cpu": 93.2,
+    "note": "forward pass on random tensors (timing only); preprocessing timed on one real image; excludes disk read and Grad-CAM."
+  },
+  "ablation": [
+    {
+      "name": "Majority-class prior (no image information)",
+      "n": 519,
+      "sensitivity": 1.0,
+      "specificity": 0.0,
+      "roc_auc": 0.5,
+      "qwk": 0.0,
+      "coverage": "all",
+      "notes": "threshold from validation (sens >= 0.90 rule)"
+    },
+    {
+      "name": "Hand-crafted features + gradient boosting",
+      "n": 519,
+      "sensitivity": 0.9414634146341463,
+      "specificity": 0.8343949044585988,
+      "roc_auc": 0.9575889389467143,
+      "qwk": 0.7550941114065525,
+      "coverage": "all",
+      "notes": "threshold from validation (sens >= 0.90 rule)"
+    },
+    {
+      "name": "Small CNN from scratch (224px)",
+      "n": 519,
+      "sensitivity": 0.9609756097560975,
+      "specificity": 0.9044585987261147,
+      "roc_auc": 0.9780487804878047,
+      "qwk": 0.8500276822658663,
+      "coverage": "all",
+      "notes": "threshold from validation (sens >= 0.90 rule)"
+    },
+    {
+      "name": "EfficientNet-B0 transfer learning (384px)",
+      "n": 519,
+      "sensitivity": 0.9317073170731708,
+      "specificity": 0.9554140127388535,
+      "roc_auc": 0.9870902594376262,
+      "qwk": 0.9100260040450737,
+      "coverage": "all",
+      "notes": "threshold from validation (sens >= 0.90 rule)"
+    },
+    {
+      "name": "EfficientNet-B0 + quality gate (rejected counted as referred)",
+      "n": 519,
+      "sensitivity": 0.9170731707317074,
+      "specificity": 0.9299363057324841,
+      "roc_auc": null,
+      "qwk": null,
+      "coverage": "96.3% auto (19 recapture, 0 review)",
+      "notes": "conservative accounting; AUC/QWK not defined for the decision pipeline"
+    },
+    {
+      "name": "EfficientNet-B0 + quality gate + human-review band (both counted as referred)",
+      "n": 519,
+      "sensitivity": 0.9414634146341463,
+      "specificity": 0.910828025477707,
+      "roc_auc": null,
+      "qwk": null,
+      "coverage": "88.6% auto (19 recapture, 40 review)",
+      "notes": "conservative accounting; AUC/QWK not defined for the decision pipeline"
+    }
+  ],
+  "ablation_notes": "All rows are evaluated on the identical internal test split. Lesion-evidence and lesion/CNN fusion rows are absent because no lesion detector was implemented (no lesion annotations in APTOS). 'Fusion' here means quality gate + confidence-based review band only.",
+  "total_minutes": 56.0,
+  "robustness_comparison": {
+    "clean_test": {
+      "standard": {
+        "threshold": 0.6276501177541343,
+        "sensitivity": 0.9317073170731708,
+        "specificity": 0.9554140127388535,
+        "roc_auc": 0.9870902594376262,
+        "pr_auc": 0.9790653378988377,
+        "qwk": 0.9100260040450737,
+        "macro_f1": 0.712841310493374,
+        "ece_5grade": 0.042234062485867724
+      },
+      "robust": {
+        "threshold": 0.6196474314074698,
+        "sensitivity": 0.9365853658536586,
+        "specificity": 0.9394904458598726,
+        "roc_auc": 0.9885816374087307,
+        "pr_auc": 0.9814727553342302,
+        "qwk": 0.9233545528791829,
+        "macro_f1": 0.7099274792607138,
+        "ece_5grade": 0.01951030669966043
+      }
+    },
+    "paired_robust_minus_standard": {
+      "roc_auc": {
+        "metric": "roc_auc",
+        "point_diff": 0.001491377971104546,
+        "lo": -0.0036580266904247204,
+        "hi": 0.007247915239514227,
+        "n_valid": 1000,
+        "n_boot": 1000,
+        "seed": 0
+      },
+      "qwk": {
+        "metric": "qwk",
+        "point_diff": 0.013328548834109166,
+        "lo": -0.0026540852291229906,
+        "hi": 0.03010439791101165,
+        "n_valid": 1000,
+        "n_boot": 1000,
+        "seed": 0
+      },
+      "sensitivity": {
+        "metric": "sensitivity",
+        "point_diff": 0.004878048780487809,
+        "lo": -0.027910236905020674,
+        "hi": 0.03960888626176053,
+        "n_valid": 1000,
+        "n_boot": 1000,
+        "seed": 0
+      },
+      "specificity": {
+        "metric": "specificity",
+        "point_diff": -0.015923566878980888,
+        "lo": -0.03525995575221238,
+        "hi": 0.0031058319304967607,
+        "n_valid": 1000,
+        "n_boot": 1000,
+        "seed": 0
+      }
+    },
+    "degraded": [
+      {
+        "condition": "clean (same subset)",
+        "n": 150,
+        "standard": {
+          "ungated_sensitivity": 0.9555555555555556,
+          "ungated_specificity": 0.8,
+          "ungated_auc": 0.9648148148148148,
+          "rejected_share": 0.06666666666666667
+        },
+        "robust": {
+          "ungated_sensitivity": 0.9555555555555556,
+          "ungated_specificity": 0.7666666666666667,
+          "ungated_auc": 0.9757407407407408,
+          "rejected_share": 0.06666666666666667
+        }
+      },
+      {
+        "condition": "blur (severity 2)",
+        "n": 150,
+        "standard": {
+          "ungated_sensitivity": 0.022222222222222223,
+          "ungated_specificity": 1.0,
+          "ungated_auc": 0.8101851851851852,
+          "rejected_share": 1.0
+        },
+        "robust": {
+          "ungated_sensitivity": 0.9111111111111111,
+          "ungated_specificity": 0.8,
+          "ungated_auc": 0.9572222222222222,
+          "rejected_share": 1.0
+        }
+      },
+      {
+        "condition": "dark (severity 2)",
+        "n": 150,
+        "standard": {
+          "ungated_sensitivity": 0.9444444444444444,
+          "ungated_specificity": 0.8166666666666667,
+          "ungated_auc": 0.9390740740740742,
+          "rejected_share": 0.9466666666666667
+        },
+        "robust": {
+          "ungated_sensitivity": 0.9444444444444444,
+          "ungated_specificity": 0.7833333333333333,
+          "ungated_auc": 0.9612962962962963,
+          "rejected_share": 0.9466666666666667
+        }
+      },
+      {
+        "condition": "overexposed (severity 2)",
+        "n": 150,
+        "standard": {
+          "ungated_sensitivity": 0.9666666666666667,
+          "ungated_specificity": 0.7,
+          "ungated_auc": 0.9116666666666666,
+          "rejected_share": 0.006666666666666667
+        },
+        "robust": {
+          "ungated_sensitivity": 0.9111111111111111,
+          "ungated_specificity": 0.85,
+          "ungated_auc": 0.9507407407407407,
+          "rejected_share": 0.006666666666666667
+        }
+      },
+      {
+        "condition": "low_contrast (severity 2)",
+        "n": 150,
+        "standard": {
+          "ungated_sensitivity": 0.9333333333333333,
+          "ungated_specificity": 0.7666666666666667,
+          "ungated_auc": 0.9175925925925926,
+          "rejected_share": 0.8533333333333334
+        },
+        "robust": {
+          "ungated_sensitivity": 0.9333333333333333,
+          "ungated_specificity": 0.75,
+          "ungated_auc": 0.932962962962963,
+          "rejected_share": 0.8533333333333334
+        }
+      },
+      {
+        "condition": "jpeg (severity 2)",
+        "n": 150,
+        "standard": {
+          "ungated_sensitivity": 1.0,
+          "ungated_specificity": 0.05,
+          "ungated_auc": 0.8116666666666666,
+          "rejected_share": 0.05333333333333334
+        },
+        "robust": {
+          "ungated_sensitivity": 0.9777777777777777,
+          "ungated_specificity": 0.65,
+          "ungated_auc": 0.9464814814814815,
+          "rejected_share": 0.05333333333333334
+        }
+      },
+      {
+        "condition": "cropped_fov (severity 2)",
+        "n": 150,
+        "standard": {
+          "ungated_sensitivity": 0.9333333333333333,
+          "ungated_specificity": 0.8666666666666667,
+          "ungated_auc": 0.9614814814814815,
+          "rejected_share": 0.09333333333333334
+        },
+        "robust": {
+          "ungated_sensitivity": 0.9111111111111111,
+          "ungated_specificity": 0.9,
+          "ungated_auc": 0.9683333333333334,
+          "rejected_share": 0.09333333333333334
+        }
+      }
+    ],
+    "decision": {
+      "rule": "see scripts/compare_robust.py docstring (fixed before the results were seen)",
+      "clean_not_meaningfully_worse": true,
+      "mean_balanced_accuracy_gain_on_degraded": 0.13111111111111112,
+      "gain_at_least_0.05": true,
+      "recommend_robust_model": true
+    },
+    "robust_run": {
+      "epochs_completed": 26,
+      "best_epoch": 18,
+      "stop_reason": "early stopping: no improvement in validation qwk for 8 epochs",
+      "train_seconds": 1643.129472732544
+    },
+    "n_test": 519,
+    "same_split_verified": true,
+    "caveat": "degradations are synthetic and applied to full-resolution originals; the training augmentations were applied to 384-px images, so transfer is not guaranteed"
+  },
+  "lesion_evidence": {
+    "segmentation_idrid_test": {
+      "dataset": "IDRiD official segmentation test split (27 images)",
+      "evaluation_type": "held-out test of the lesion model (images never used for training or selection)",
+      "per_lesion": {
+        "MA": {
+          "aupr": 0.44627329163377116,
+          "n_test_images_with_lesion": 27,
+          "dice": 0.49053012456890865,
+          "iou": 0.32496847572318566,
+          "precision": 0.46693814580941445,
+          "recall": 0.5166329244571474,
+          "threshold": 0.8
+        },
+        "HE": {
+          "aupr": 0.5692559727500746,
+          "n_test_images_with_lesion": 27,
+          "dice": 0.5899027120006097,
+          "iou": 0.4183418527366637,
+          "precision": 0.554275306578959,
+          "recall": 0.6304248138598488,
+          "threshold": 0.44
+        },
+        "EX": {
+          "aupr": 0.332295582573931,
+          "n_test_images_with_lesion": 27,
+          "dice": 0.3961609405863632,
+          "iou": 0.24700791408035638,
+          "precision": 0.8472449089623828,
+          "recall": 0.2585210464775491,
+          "threshold": 0.9
+        },
+        "SE": {
+          "aupr": 0.5978629640522599,
+          "n_test_images_with_lesion": 14,
+          "dice": 0.6420263840214263,
+          "iou": 0.4727826641600645,
+          "precision": 0.624423605568857,
+          "recall": 0.6606504122248413,
+          "threshold": 0.795
+        },
+        "OD": {
+          "aupr": 0.9786085034113534,
+          "n_test_images_with_lesion": 27,
+          "dice": 0.9542582216748402,
+          "iou": 0.9125180244813037,
+          "precision": 0.9379256340059041,
+          "recall": 0.9711697056820762,
+          "threshold": 0.385
+        }
+      },
+      "metric_notes": "pixel-level on the 1280-px retina canvas; Dice == pixel F1; thresholds chosen on validation images",
+      "canvas_px": 1280
+    },
+    "locator_idrid_test": {
+      "n_test": 103,
+      "od_error_px_mean": 89.09423387903267,
+      "od_error_px_median": 78.8040919042178,
+      "fovea_error_px_mean": 132.9169079291802,
+      "fovea_error_px_median": 116.0951365069751,
+      "disc_diameter_px_approx": 526.6829811211198,
+      "fovea_within_1DD": 1.0,
+      "od_within_1DD": 1.0,
+      "note": "errors in ORIGINAL IDRiD pixels (4288x2848 images); DD = median optic-disc diameter measured on validation masks",
+      "val_l1_fraction_of_canvas": 0.021557889878749847,
+      "epochs": 40
+    },
+    "locator_final_idrid_test": {
+      "n_test": 103,
+      "od_error_px_median": 23.301934042660015,
+      "od_error_px_mean": 26.258415859720923,
+      "fovea_error_px_median": 128.54953304689556,
+      "fovea_error_px_mean": 140.15473961566937,
+      "od_within_1DD": 1.0,
+      "fovea_within_1DD": 1.0,
+      "disc_diameter_px_approx": 500.0,
+      "share_using_anatomical_prior": 0.009708737864077669,
+      "note": "final estimate = segmented disc + regressor fovea if consistent, else anatomical prior; errors in original IDRiD pixels"
+    },
+    "training": {
+      "iterations_run": 4000,
+      "best_iteration": 750,
+      "best_val_mean_aupr": 0.5015781112042528,
+      "stop_reason": "completed all iterations",
+      "minutes": 28.4,
+      "n_train_images": 44,
+      "n_val_images": 10,
+      "batch": 8,
+      "patch": 512,
+      "canvas": 1280
+    },
+    "idrid": {
+      "counts": {
+        "seg_train": 54,
+        "seg_test": 27,
+        "grading_train": 413,
+        "grading_test": 103,
+        "loc_train": 413,
+        "loc_test": 103
+      },
+      "train_images_with_mask": {
+        "MA": 54,
+        "HE": 53,
+        "EX": 54,
+        "SE": 26,
+        "OD": 54
+      },
+      "license": "CC BY 4.0 (Porwal et al., IDRiD, Data 2018;3(3):25); this run used a third-party Kaggle copy of the official release",
+      "note": "A missing mask file is interpreted as 'no lesion of that type in the image' (dataset convention)."
+    },
+    "thresholds": {
+      "MA": 0.8,
+      "HE": 0.44,
+      "EX": 0.9,
+      "SE": 0.795,
+      "OD": 0.385
+    },
+    "environment": {
+      "python": "3.13.15",
+      "torch": "2.11.0+cu128",
+      "cuda_available": true,
+      "gpu": "Tesla T4"
+    },
+    "aptos_features": {
+      "n": 3662,
+      "n_failed": 0,
+      "n_with_split": 3662,
+      "note": "lesion models applied to APTOS WITHOUT any APTOS lesion annotation: domain transfer from IDRiD, performance on APTOS lesions is unmeasured"
+    }
+  },
+  "lesion_fusion": {
+    "n_train_features": 2611,
+    "n_val": 532,
+    "n_test": 519,
+    "n_lesion_failed": 0,
+    "protocol": "rule thresholds, GB grader on TRAIN rows; fusion weight + thresholds on VALIDATION rows; test touched once",
+    "rule_params": {
+      "literal": {
+        "min_ma": 1,
+        "min_he": 1,
+        "min_ex": 1,
+        "min_se": 1,
+        "he_per_quadrant": 20,
+        "name": "ICDR-literal"
+      },
+      "calibrated": {
+        "min_ma": 12,
+        "min_he": 200,
+        "min_ex": 50,
+        "min_se": 5,
+        "he_per_quadrant": 80,
+        "name": "data-calibrated (fitted on training split)"
+      }
+    },
+    "rule_literal_confusion_5grade": [
+      [
+        0,
+        0,
+        245,
+        12,
+        0
+      ],
+      [
+        0,
+        0,
+        56,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        127,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        37,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        37,
+        2,
+        0
+      ]
+    ],
+    "rule_calibrated_confusion_5grade": [
+      [
+        185,
+        10,
+        57,
+        5,
+        0
+      ],
+      [
+        16,
+        26,
+        15,
+        0,
+        0
+      ],
+      [
+        3,
+        31,
+        94,
+        0,
+        0
+      ],
+      [
+        0,
+        2,
+        36,
+        0,
+        0
+      ],
+      [
+        2,
+        10,
+        27,
+        0,
+        0
+      ]
+    ],
+    "fusion": {
+      "weight_classifier": 0.6000000000000001,
+      "val_auc_at_weight": 0.9854530885780886,
+      "threshold": 0.5668683163685201,
+      "note": "w=1.0 means the validation set preferred the classifier alone"
+    },
+    "paired_fusion_minus_classifier": {
+      "roc_auc": {
+        "metric": "roc_auc",
+        "point_diff": 0.0021283206462637816,
+        "lo": -0.0018167066903566065,
+        "hi": 0.006472804697389747,
+        "n_valid": 1000,
+        "n_boot": 1000,
+        "seed": 0
+      },
+      "qwk": {
+        "metric": "qwk",
+        "point_diff": -0.029843356278924094,
+        "lo": -0.06212603245154556,
+        "hi": -0.0011521846832085684,
+        "n_valid": 1000,
+        "n_boot": 1000,
+        "seed": 0
+      }
+    },
+    "paired_lesion_gb_minus_classifier": {
+      "roc_auc": {
+        "metric": "roc_auc",
+        "point_diff": -0.009958054994562704,
+        "lo": -0.0195091454768724,
+        "hi": -0.0008820829878099876,
+        "n_valid": 1000,
+        "n_boot": 1000,
+        "seed": 0
+      },
+      "qwk": {
+        "metric": "qwk",
+        "point_diff": -0.13413036384642252,
+        "lo": -0.1831788636985764,
+        "hi": -0.08792618730284671,
+        "n_valid": 1000,
+        "n_boot": 1000,
+        "seed": 0
+      }
+    },
+    "cross_check": {
+      "literal": {
+        "status_counts": {
+          "agree": 205,
+          "lesions_only": 314,
+          "classifier_only": 0
+        },
+        "classifier_error_rate_when_agree": 0.06829268292682927,
+        "classifier_error_rate_when_disagree": 0.044585987261146494,
+        "classifier_alone": {
+          "sensitivity": 0.9317073170731708,
+          "specificity": 0.9554140127388535,
+          "fn": 14
+        },
+        "with_escalation": {
+          "sensitivity": 1.0,
+          "specificity": 0.0,
+          "fn": 0,
+          "n_extra_referrals": 314,
+          "referable_cases_rescued": 14
+        }
+      },
+      "calibrated": {
+        "status_counts": {
+          "agree": 402,
+          "lesions_only": 73,
+          "classifier_only": 44
+        },
+        "classifier_error_rate_when_agree": 0.04477611940298507,
+        "classifier_error_rate_when_disagree": 0.08547008547008547,
+        "classifier_alone": {
+          "sensitivity": 0.9317073170731708,
+          "specificity": 0.9554140127388535,
+          "fn": 14
+        },
+        "with_escalation": {
+          "sensitivity": 0.9414634146341463,
+          "specificity": 0.7292993630573248,
+          "fn": 12,
+          "n_extra_referrals": 73,
+          "referable_cases_rescued": 2
+        }
+      }
+    },
+    "rows": [
+      {
+        "name": "EfficientNet-B0 classifier alone",
+        "n": 519,
+        "sensitivity": 0.9317073170731708,
+        "specificity": 0.9554140127388535,
+        "roc_auc": 0.9870902594376262,
+        "qwk": 0.9100260040450737,
+        "tp": 191,
+        "fp": 14,
+        "tn": 300,
+        "fn": 14
+      },
+      {
+        "name": "Lesion rules alone (ICDR-literal)",
+        "n": 519,
+        "sensitivity": 1.0,
+        "specificity": 0.0,
+        "roc_auc": 0.48905546061830046,
+        "qwk": -0.007687903106261551,
+        "tp": 205,
+        "fp": 314,
+        "tn": 0,
+        "fn": 0
+      },
+      {
+        "name": "Lesion rules alone (data-calibrated (fitted on training split))",
+        "n": 519,
+        "sensitivity": 0.7658536585365854,
+        "specificity": 0.7547770700636943,
+        "roc_auc": 0.8199549479571229,
+        "qwk": 0.5272917018503362,
+        "tp": 157,
+        "fp": 77,
+        "tn": 237,
+        "fn": 48
+      },
+      {
+        "name": "Lesion features + gradient boosting",
+        "n": 519,
+        "sensitivity": 0.9121951219512195,
+        "specificity": 0.9299363057324841,
+        "roc_auc": 0.9771322044430635,
+        "qwk": 0.7758956401986512,
+        "tp": 187,
+        "fp": 22,
+        "tn": 292,
+        "fn": 18
+      },
+      {
+        "name": "Fusion: classifier (w=0.6) + lesion-feature grader",
+        "n": 519,
+        "sensitivity": 0.9219512195121952,
+        "specificity": 0.9617834394904459,
+        "roc_auc": 0.98921858008389,
+        "qwk": 0.8801826477661496,
+        "tp": 189,
+        "fp": 12,
+        "tn": 302,
+        "fn": 16
+      },
+      {
+        "name": "Classifier + lesion-evidence escalation (ICDR-literal)",
+        "n": 519,
+        "sensitivity": 1.0,
+        "specificity": 0.0,
+        "roc_auc": null,
+        "qwk": null,
+        "tp": 205,
+        "fp": 314,
+        "tn": 0,
+        "fn": 0
+      },
+      {
+        "name": "Classifier + lesion-evidence escalation (data-calibrated (fitted on training split))",
+        "n": 519,
+        "sensitivity": 0.9414634146341463,
+        "specificity": 0.7292993630573248,
+        "roc_auc": null,
+        "qwk": null,
+        "tp": 193,
+        "fp": 85,
+        "tn": 229,
+        "fn": 12
+      }
+    ],
+    "lesion_count_by_grade_train": {
+      "0": {
+        "MA": 3.9899068322981366,
+        "HE": 35.98524844720497,
+        "EX": 28.25388198757764,
+        "SE": 0.7476708074534162
+      },
+      "1": {
+        "MA": 25.96551724137931,
+        "HE": 13.314176245210728,
+        "EX": 40.78544061302682,
+        "SE": 1.0689655172413792
+      },
+      "2": {
+        "MA": 51.577622377622376,
+        "HE": 25.095104895104896,
+        "EX": 104.11328671328671,
+        "SE": 2.518881118881119
+      },
+      "3": {
+        "MA": 62.698412698412696,
+        "HE": 40.523809523809526,
+        "EX": 173.78571428571428,
+        "SE": 5.0476190476190474
+      },
+      "4": {
+        "MA": 53.76923076923077,
+        "HE": 34.619909502262445,
+        "EX": 97.29411764705883,
+        "SE": 4.701357466063349
+      }
+    },
+    "rule_variant_for_app": {
+      "chosen": "calibrated",
+      "validation_qwk": {
+        "literal": -0.03077014996713867,
+        "calibrated": 0.5356342267450194
+      },
+      "selected_on": "validation"
+    },
+    "aptos_locator_fallback_share": 0.05161114145275805
+  },
+  "external_idrid": {
+    "dataset": "IDRiD disease-grading test split",
+    "evaluation_type": "EXTERNAL (never used for training or selection of the classifier or rule thresholds)",
+    "n_test_total": 103,
+    "n_evaluated": 100,
+    "n_excluded_duplicates_of_lesion_training": 3,
+    "referable_prevalence": 0.61,
+    "classifier_ci": {
+      "sensitivity": {
+        "lo": 0.6612834882449425,
+        "hi": 0.8688702779757662,
+        "n_valid": 1000
+      },
+      "specificity": {
+        "lo": 0.7948717948717948,
+        "hi": 0.9762043189368771,
+        "n_valid": 1000
+      },
+      "precision": {
+        "lo": 0.84,
+        "hi": 0.981489898989899,
+        "n_valid": 1000
+      },
+      "npv": {
+        "lo": 0.574468085106383,
+        "hi": 0.8333333333333334,
+        "n_valid": 1000
+      },
+      "roc_auc": {
+        "lo": 0.8297591470658113,
+        "hi": 0.9494929789190718,
+        "n_valid": 1000
+      },
+      "pr_auc": {
+        "lo": 0.90013506458441,
+        "hi": 0.9746610289836364,
+        "n_valid": 1000
+      },
+      "balanced_accuracy": {
+        "lo": 0.7604615528688419,
+        "hi": 0.8993551054154609,
+        "n_valid": 1000
+      },
+      "f1": {
+        "lo": 0.7608695652173914,
+        "hi": 0.9038461538461539,
+        "n_valid": 1000
+      },
+      "qwk": {
+        "lo": 0.5364450212135526,
+        "hi": 0.7452513237032328,
+        "n_valid": 1000
+      },
+      "macro_f1": {
+        "lo": 0.3525165787428945,
+        "hi": 0.53371708907035,
+        "n_valid": 1000
+      },
+      "accuracy_5": {
+        "lo": 0.46,
+        "hi": 0.64,
+        "n_valid": 1000
+      },
+      "balanced_accuracy_5": {
+        "lo": 0.36141883116883117,
+        "hi": 0.5908640819964349,
+        "n_valid": 1000
+      },
+      "brier": {
+        "lo": 0.08667935962631469,
+        "hi": 0.18723194103402443,
+        "n_valid": 1000
+      },
+      "_method": {
+        "type": "percentile bootstrap",
+        "n_boot": 1000,
+        "seed": 0,
+        "alpha": 0.05,
+        "n_observations": 100,
+        "note": "images treated as independent; no patient grouping available"
+      }
+    },
+    "classifier_5grade_confusion": [
+      [
+        21,
+        7,
+        6,
+        0,
+        0
+      ],
+      [
+        2,
+        2,
+        1,
+        0,
+        0
+      ],
+      [
+        4,
+        4,
+        21,
+        0,
+        0
+      ],
+      [
+        1,
+        1,
+        7,
+        10,
+        0
+      ],
+      [
+        0,
+        1,
+        7,
+        4,
+        1
+      ]
+    ],
+    "rows": [
+      {
+        "name": "EfficientNet-B0 classifier alone",
+        "n": 100,
+        "sensitivity": 0.7704918032786885,
+        "specificity": 0.8974358974358975,
+        "roc_auc": 0.8953341740226987,
+        "qwk": 0.6474555487431024,
+        "tp": 47,
+        "fp": 4,
+        "tn": 35,
+        "fn": 14
+      },
+      {
+        "name": "Lesion rules alone (ICDR-literal)",
+        "n": 100,
+        "sensitivity": 1.0,
+        "specificity": 0.0,
+        "roc_auc": 0.5081967213114754,
+        "qwk": 0.021352313167259718
+      },
+      {
+        "name": "Lesion rules alone (data-calibrated (fitted on training split))",
+        "n": 100,
+        "sensitivity": 0.5245901639344263,
+        "specificity": 1.0,
+        "roc_auc": 0.8505674653215638,
+        "qwk": 0.4251626898047721
+      },
+      {
+        "name": "Lesion features + gradient boosting (APTOS-trained)",
+        "n": 100,
+        "sensitivity": 0.6885245901639344,
+        "specificity": 0.9487179487179487,
+        "roc_auc": 0.8970155527532577,
+        "qwk": 0.652515892683978
+      }
+    ],
+    "dme_proxy": {
+      "definition": "hard-exudate regions within 1 disc diameter of the estimated fovea vs IDRiD macular-oedema risk >= 1",
+      "roc_auc": 0.796969696969697,
+      "n": 100,
+      "n_dme_risk": 55
+    }
+  },
+  "ensemble_selection": {
+    "protocol": "selected on VALIDATION mean(QWK, ROC-AUC); test only reported + non-inferiority vs default; IDRiD independent",
+    "default": {
+      "members": [
+        "efficientnet_b0_robust"
+      ],
+      "tta": false
+    },
+    "selected": {
+      "members": [
+        "efficientnet_b0_robust",
+        "efficientnet_b3_robust"
+      ],
+      "tta": true,
+      "val_qwk": 0.9207978866302499,
+      "val_auc": 0.9815632284382285,
+      "val_score": 0.9511805575342391,
+      "threshold": 0.6648616816078137
+    },
+    "candidates": [
+      {
+        "members": [
+          "efficientnet_b0_robust"
+        ],
+        "tta": false,
+        "val_qwk": 0.9098351333450782,
+        "val_auc": 0.98060168997669,
+        "val_score": 0.945218411660884,
+        "threshold": 0.6201292126877358,
+        "test_sensitivity": 0.9365853658536586,
+        "test_specificity": 0.9394904458598726,
+        "test_auc": 0.9885661022215317,
+        "test_qwk": 0.9233545528791829,
+        "test_ece_5grade": 0.01951735291739273,
+        "idrid_sensitivity": 0.765625,
+        "idrid_specificity": 0.8717948717948718,
+        "idrid_auc": 0.875801282051282,
+        "idrid_qwk": 0.5624360445285126
+      },
+      {
+        "members": [
+          "efficientnet_b0_robust"
+        ],
+        "tta": true,
+        "val_qwk": 0.9108567058770608,
+        "val_auc": 0.9808056526806528,
+        "val_score": 0.9458311792788567,
+        "threshold": 0.5994300769307551,
+        "test_sensitivity": 0.9414634146341463,
+        "test_specificity": 0.9363057324840764,
+        "test_auc": 0.9886437781575268,
+        "test_qwk": 0.9217839019650184,
+        "test_ece_5grade": 0.02868013588217472,
+        "idrid_sensitivity": 0.796875,
+        "idrid_specificity": 0.8717948717948718,
+        "idrid_auc": 0.8826121794871795,
+        "idrid_qwk": 0.5780237250825485
+      },
+      {
+        "members": [
+          "efficientnet_b3_robust"
+        ],
+        "tta": false,
+        "val_qwk": 0.9082740135828979,
+        "val_auc": 0.9795964452214452,
+        "val_score": 0.9439352294021716,
+        "threshold": 0.6554241443571194,
+        "test_sensitivity": 0.926829268292683,
+        "test_specificity": 0.9331210191082803,
+        "test_auc": 0.9872456113096162,
+        "test_qwk": 0.9201133656753449,
+        "test_ece_5grade": 0.03695653300149955,
+        "idrid_sensitivity": 0.78125,
+        "idrid_specificity": 0.7692307692307693,
+        "idrid_auc": 0.8705929487179487,
+        "idrid_qwk": 0.6396663078579117
+      },
+      {
+        "members": [
+          "efficientnet_b3_robust"
+        ],
+        "tta": true,
+        "val_qwk": 0.9105262803823824,
+        "val_auc": 0.9793196386946387,
+        "val_score": 0.9449229595385105,
+        "threshold": 0.6607377586342593,
+        "test_sensitivity": 0.9512195121951219,
+        "test_specificity": 0.9363057324840764,
+        "test_auc": 0.9890010874631039,
+        "test_qwk": 0.9150748644615686,
+        "test_ece_5grade": 0.02754908879498258,
+        "idrid_sensitivity": 0.796875,
+        "idrid_specificity": 0.7948717948717948,
+        "idrid_auc": 0.8754006410256411,
+        "idrid_qwk": 0.6480112044817927
+      },
+      {
+        "members": [
+          "efficientnet_b0_robust",
+          "efficientnet_b3_robust"
+        ],
+        "tta": false,
+        "val_qwk": 0.9188447672866523,
+        "val_auc": 0.9819857226107227,
+        "val_score": 0.9504152449486876,
+        "threshold": 0.6041090885521672,
+        "test_sensitivity": 0.9463414634146341,
+        "test_specificity": 0.9426751592356688,
+        "test_auc": 0.9899798042566413,
+        "test_qwk": 0.9174564373390501,
+        "test_ece_5grade": 0.03103239265766802,
+        "idrid_sensitivity": 0.8125,
+        "idrid_specificity": 0.8461538461538461,
+        "idrid_auc": 0.8770032051282051,
+        "idrid_qwk": 0.6119763845937587
+      },
+      {
+        "members": [
+          "efficientnet_b0_robust",
+          "efficientnet_b3_robust"
+        ],
+        "tta": true,
+        "val_qwk": 0.9207978866302499,
+        "val_auc": 0.9815632284382285,
+        "val_score": 0.9511805575342391,
+        "threshold": 0.6648616816078137,
+        "test_sensitivity": 0.9414634146341463,
+        "test_specificity": 0.9490445859872612,
+        "test_auc": 0.9908342395525866,
+        "test_qwk": 0.9213317061890858,
+        "test_ece_5grade": 0.04339945676454783,
+        "idrid_sensitivity": 0.8125,
+        "idrid_specificity": 0.8717948717948718,
+        "idrid_auc": 0.8814102564102564,
+        "idrid_qwk": 0.684476335035187
+      }
+    ],
+    "paired_selected_minus_default_test": {
+      "roc_auc": {
+        "metric": "roc_auc",
+        "point_diff": 0.002268137331054909,
+        "lo": -7.870016393219372e-05,
+        "hi": 0.0050447601887775965,
+        "n_valid": 1000,
+        "n_boot": 1000,
+        "seed": 0
+      },
+      "qwk": {
+        "metric": "qwk",
+        "point_diff": -0.002022846690097113,
+        "lo": -0.017764752556503335,
+        "hi": 0.014828779791844974,
+        "n_valid": 1000,
+        "n_boot": 1000,
+        "seed": 0
+      }
+    },
+    "decision": {
+      "validation_score_gain": 0.005962145873355085,
+      "gain_at_least_0.003": true,
+      "non_inferior_on_test": true,
+      "adopt_selected": true,
+      "selected_is_default": false
+    }
+  },
+  "eyepacs_experiment": {
+    "models": {
+      "efficientnet_b0_robust": {
+        "temperature": 1.6488693197468538,
+        "threshold": 0.620136298310464,
+        "val_qwk": 0.9098351333450782,
+        "test": {
+          "n": 519,
+          "sensitivity": 0.9365853658536586,
+          "specificity": 0.9394904458598726,
+          "roc_auc": 0.9885661022215317,
+          "pr_auc": 0.9814208611982677,
+          "qwk": 0.9233545528791829,
+          "sens_ci": {
+            "lo": 0.9014644716051677,
+            "hi": 0.9681017287234043,
+            "n_valid": 1000
+          },
+          "auc_ci": {
+            "lo": 0.9816820491403488,
+            "hi": 0.9941072578539731,
+            "n_valid": 1000
+          }
+        },
+        "idrid_test": {
+          "n": 103,
+          "sensitivity": 0.765625,
+          "specificity": 0.8717948717948718,
+          "roc_auc": 0.875801282051282,
+          "pr_auc": 0.9346738297517425,
+          "qwk": 0.5624360445285126,
+          "sens_ci": {
+            "lo": 0.6571321961620469,
+            "hi": 0.8621081504702194,
+            "n_valid": 1000
+          },
+          "auc_ci": {
+            "lo": 0.8040552480306579,
+            "hi": 0.9415148077673692,
+            "n_valid": 1000
+          }
+        },
+        "eyepacs_test": {
+          "n": 3000,
+          "sensitivity": 0.3882783882783883,
+          "specificity": 0.9331703341483293,
+          "roc_auc": 0.7845492594881348,
+          "pr_auc": 0.512816420066936,
+          "qwk": 0.4363950807071484,
+          "sens_ci": {
+            "lo": 0.34649767346472204,
+            "hi": 0.42969254497232473,
+            "n_valid": 1000
+          },
+          "auc_ci": {
+            "lo": 0.7621554956227738,
+            "hi": 0.8080030819255155,
+            "n_valid": 1000
+          }
+        }
+      },
+      "efficientnet_b0_eyepacs_mixed": {
+        "temperature": 1.1625354040869749,
+        "threshold": 0.628433517411495,
+        "val_qwk": 0.904697155116409,
+        "test": {
+          "n": 519,
+          "sensitivity": 0.9365853658536586,
+          "specificity": 0.9267515923566879,
+          "roc_auc": 0.9838123349386361,
+          "pr_auc": 0.9716291137403764,
+          "qwk": 0.9132693884733247,
+          "sens_ci": {
+            "lo": 0.899988038277512,
+            "hi": 0.9674493623405851,
+            "n_valid": 1000
+          },
+          "auc_ci": {
+            "lo": 0.9747626861164759,
+            "hi": 0.9912714621010407,
+            "n_valid": 1000
+          }
+        },
+        "idrid_test": {
+          "n": 103,
+          "sensitivity": 0.8125,
+          "specificity": 0.9230769230769231,
+          "roc_auc": 0.9150641025641026,
+          "pr_auc": 0.9563086763616745,
+          "qwk": 0.730050744437629,
+          "sens_ci": {
+            "lo": 0.7120601173020529,
+            "hi": 0.901679005817028,
+            "n_valid": 1000
+          },
+          "auc_ci": {
+            "lo": 0.8559095242033652,
+            "hi": 0.9617723123732252,
+            "n_valid": 1000
+          }
+        },
+        "eyepacs_test": {
+          "n": 3000,
+          "sensitivity": 0.6648351648351648,
+          "specificity": 0.9535452322738386,
+          "roc_auc": 0.9174973355902452,
+          "pr_auc": 0.8141726724573584,
+          "qwk": 0.6721224920802534,
+          "sens_ci": {
+            "lo": 0.6289612659058874,
+            "hi": 0.7080156154231905,
+            "n_valid": 1000
+          },
+          "auc_ci": {
+            "lo": 0.9030420311364746,
+            "hi": 0.9306006622559432,
+            "n_valid": 1000
+          }
+        }
+      },
+      "efficientnet_b0_eyepacs": {
+        "temperature": 1.1954978076375182,
+        "threshold": 0.4297276054451114,
+        "val_qwk": 0.9116707189206524,
+        "test": {
+          "n": 519,
+          "sensitivity": 0.9560975609756097,
+          "specificity": 0.9267515923566879,
+          "roc_auc": 0.9867484853192481,
+          "pr_auc": 0.9760829754760645,
+          "qwk": 0.9137787039851907,
+          "sens_ci": {
+            "lo": 0.9259259259259259,
+            "hi": 0.9813084112149533,
+            "n_valid": 1000
+          },
+          "auc_ci": {
+            "lo": 0.9785306640130145,
+            "hi": 0.9935559572368418,
+            "n_valid": 1000
+          }
+        },
+        "idrid_test": {
+          "n": 103,
+          "sensitivity": 0.828125,
+          "specificity": 0.9230769230769231,
+          "roc_auc": 0.9166666666666666,
+          "pr_auc": 0.9586849713030845,
+          "qwk": 0.7886548401340225,
+          "sens_ci": {
+            "lo": 0.7287750385208012,
+            "hi": 0.9118154158215009,
+            "n_valid": 1000
+          },
+          "auc_ci": {
+            "lo": 0.8579746723864372,
+            "hi": 0.9652774616617851,
+            "n_valid": 1000
+          }
+        },
+        "eyepacs_test": {
+          "n": 3000,
+          "sensitivity": 0.5164835164835165,
+          "specificity": 0.9873675631621842,
+          "roc_auc": 0.9089540587095598,
+          "pr_auc": 0.7891423304121492,
+          "qwk": 0.6762778505897772,
+          "sens_ci": {
+            "lo": 0.47693361661754613,
+            "hi": 0.5599302325581396,
+            "n_valid": 1000
+          },
+          "auc_ci": {
+            "lo": 0.8941460839303775,
+            "hi": 0.9236371410427237,
+            "n_valid": 1000
+          }
+        }
+      }
+    },
+    "paired_candidate_minus_robust": {
+      "test": {
+        "roc_auc": {
+          "metric": "roc_auc",
+          "point_diff": -0.0018176169022836586,
+          "lo": -0.007221513234155663,
+          "hi": 0.0037196710712397354,
+          "n_valid": 1000,
+          "n_boot": 1000,
+          "seed": 0
+        },
+        "qwk": {
+          "metric": "qwk",
+          "point_diff": -0.009575848893992212,
+          "lo": -0.027011151217317814,
+          "hi": 0.010324391403537686,
+          "n_valid": 1000,
+          "n_boot": 1000,
+          "seed": 0
+        },
+        "sensitivity": {
+          "metric": "sensitivity",
+          "point_diff": 0.019512195121951126,
+          "lo": -0.015469989744696983,
+          "hi": 0.056159178331018245,
+          "n_valid": 1000,
+          "n_boot": 1000,
+          "seed": 0
+        },
+        "specificity": {
+          "metric": "specificity",
+          "point_diff": -0.01273885350318471,
+          "lo": -0.03449370552818825,
+          "hi": 0.009779365148765927,
+          "n_valid": 1000,
+          "n_boot": 1000,
+          "seed": 0
+        }
+      },
+      "idrid_test": {
+        "roc_auc": {
+          "metric": "roc_auc",
+          "point_diff": 0.04086538461538458,
+          "lo": 0.008806300607287529,
+          "hi": 0.07907715023994091,
+          "n_valid": 1000,
+          "n_boot": 1000,
+          "seed": 0
+        },
+        "sensitivity": {
+          "metric": "sensitivity",
+          "point_diff": 0.0625,
+          "lo": 0.0,
+          "hi": 0.1429147465437788,
+          "n_valid": 1000,
+          "n_boot": 1000,
+          "seed": 0
+        },
+        "specificity": {
+          "metric": "specificity",
+          "point_diff": 0.05128205128205132,
+          "lo": -0.07500000000000007,
+          "hi": 0.17394021739130433,
+          "n_valid": 1000,
+          "n_boot": 1000,
+          "seed": 0
+        }
+      }
+    },
+    "decision": {
+      "candidate": "efficientnet_b0_eyepacs",
+      "selected_on": "APTOS validation QWK",
+      "non_inferior_on_aptos_test": false,
+      "idrid_benefit": true,
+      "adopt_as_default": false
+    },
+    "data": {
+      "aptos": {
+        "train": {
+          "n": 2611,
+          "grade_counts": {
+            "0": 1288,
+            "1": 261,
+            "2": 715,
+            "3": 126,
+            "4": 221
+          },
+          "referable_prevalence": 0.40674071237073917
+        },
+        "val": {
+          "n": 532,
+          "grade_counts": {
+            "0": 260,
+            "1": 52,
+            "2": 156,
+            "3": 29,
+            "4": 35
+          },
+          "referable_prevalence": 0.41353383458646614
+        },
+        "test": {
+          "n": 519,
+          "grade_counts": {
+            "0": 257,
+            "1": 57,
+            "2": 128,
+            "3": 38,
+            "4": 39
+          },
+          "referable_prevalence": 0.394990366088632
+        }
+      },
+      "eyepacs_train_grades": {
+        "0": 5000,
+        "1": 2048,
+        "2": 4525,
+        "3": 768,
+        "4": 602
+      },
+      "eyepacs_test_grades": {
+        "0": 2220,
+        "1": 234,
+        "2": 429,
+        "3": 60,
+        "4": 57
+      },
+      "eyepacs_train_patients": 8790,
+      "eyepacs_test_patients": 1722,
+      "dedup": {
+        "n_eyepacs_checked": 15943,
+        "n_reference_images": 1154,
+        "n_removed_near_duplicates": 0,
+        "removed_in_train": 0,
+        "removed_in_ep_test": 0
+      },
+      "prep_minutes": 13.4
+    },
+    "caveats": [
+      "EyePACS grades are noisier than APTOS/IDRiD (single-reader labels from varied sites).",
+      "The IDRiD check has n = 100: its intervals are wide, so rule (b) is a weak guard rather than proof.",
+      "The robust baseline never saw EyePACS, so its EyePACS-test numbers are an external-domain result for it only."
+    ]
+  },
+  "lesion_v2_comparison": {
+    "idrid_test_mean_aupr": {
+      "v1": 0.4864219527525092,
+      "v2": 0.42092308645225074,
+      "per_lesion_v1": {
+        "MA": 0.44627329163377116,
+        "HE": 0.5692559727500746,
+        "EX": 0.332295582573931,
+        "SE": 0.5978629640522599,
+        "OD": 0.9786085034113534
+      },
+      "per_lesion_v2": {
+        "MA": 0.3947579882713945,
+        "HE": 0.49780660453541437,
+        "EX": 0.3140226782346931,
+        "SE": 0.477105074767501,
+        "OD": 0.9471800216685972
+      }
+    },
+    "eophtha_test_v2": {
+      "dataset": "e-ophtha held-out patients (47 images incl. healthy), different clinics/cameras than IDRiD",
+      "per_lesion": {
+        "MA": {
+          "aupr": 0.37043874594575116,
+          "n_test_images_with_lesion": 19,
+          "dice": 0.4604152712659076,
+          "iou": 0.299051596624032,
+          "precision": 0.34195602427619143,
+          "recall": 0.7044476327116213,
+          "threshold": 0.835
+        },
+        "EX": {
+          "aupr": 0.5160313219216224,
+          "n_test_images_with_lesion": 1,
+          "dice": 0.3955989410986102,
+          "iou": 0.24657110446529854,
+          "precision": 0.2613400371625314,
+          "recall": 0.8135420210956108,
+          "threshold": 0.635
+        }
+      },
+      "note": "only MA and EX are annotated in e-ophtha; thresholds chosen on validation images"
+    },
+    "aptos_v1": {
+      "rule_params": {
+        "min_ma": 12,
+        "min_he": 200,
+        "min_ex": 50,
+        "min_se": 5,
+        "he_per_quadrant": 80,
+        "name": "data-calibrated (fitted on training split)"
+      },
+      "rules_val_qwk": 0.5356342267450194,
+      "rules_test_qwk": 0.5272917018503362,
+      "gb_val_auc": 0.9780230186480187,
+      "gb_test_auc": 0.9771322044430635,
+      "grade0_share_with_HE_ge_20": 0.28753462603878116,
+      "grade0_mean_EX_count": 28.562326869806093,
+      "share_images_with_large_regions": null
+    },
+    "aptos_v2": {
+      "rule_params": {
+        "min_ma": 12,
+        "min_he": 30,
+        "min_ex": 50,
+        "min_se": 12,
+        "he_per_quadrant": 5,
+        "name": "data-calibrated (fitted on training split)"
+      },
+      "rules_val_qwk": 0.8036613487693538,
+      "rules_test_qwk": 0.8093667333086865,
+      "gb_val_auc": 0.9754297785547785,
+      "gb_test_auc": 0.97859251203977,
+      "grade0_share_with_HE_ge_20": 0.0592797783933518,
+      "grade0_mean_EX_count": 9.54404432132964,
+      "share_images_with_large_regions": 0.10158383397050792
+    },
+    "decision": {
+      "rule": "see scripts/compare_lesion_v2.py (fixed before the results were seen)",
+      "idrid_not_worse_than_0.03": false,
+      "aptos_val_rule_qwk_gain": 0.26802712202433443,
+      "gain_at_least_0.03": true,
+      "adopt_v2": false
+    },
+    "training_v2": {
+      "version": "v2 (IDRiD + e-ophtha, partial labels, acquisition augmentation)",
+      "iterations_run": 6000,
+      "best_iteration": 3500,
+      "best_val_mean_aupr": 0.52848746895822,
+      "stop_reason": "completed all iterations",
+      "minutes": 230.9,
+      "n_train_images": 395,
+      "n_train_by_source": {
+        "idrid": 44,
+        "eophtha": 136,
+        "eophtha_healthy": 215
+      },
+      "n_val_idrid": 10,
+      "n_val_eophtha": 44,
+      "batch": 8,
+      "patch": 512,
+      "canvas": 1280,
+      "max_area": {
+        "MA": 386,
+        "HE": 13704,
+        "EX": 3745,
+        "SE": 14312
+      }
+    },
+    "locator_v2": {
+      "n_test": 103,
+      "od_error_px_median": 20.745860710391113,
+      "od_error_px_mean": 23.47806903426838,
+      "fovea_error_px_median": 128.54953304689556,
+      "fovea_error_px_mean": 140.15473961566937,
+      "od_within_1DD": 1.0,
+      "fovea_within_1DD": 1.0,
+      "disc_diameter_px_approx": 526.6829811211198,
+      "share_using_anatomical_prior": 0.0,
+      "note": "final estimate = segmented disc + regressor fovea if consistent, else anatomical prior; errors in original IDRiD pixels"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "temperature": 1.1954978076375182,
+  "threshold": 0.4297276054451114,
+  "review_margin": 0.17753023386359207,
+  "threshold_rule": "highest threshold with validation sensitivity >= 0.90",
+  "fitted_on": "APTOS validation split",
+  "quality_thresholds": {
+    "min_fov_fraction": 0.3,
+    "min_fov_completeness": 0.6,
+    "reject_blur": 2.0,
+    "reject_brightness_low": 29.571413219744418,
+    "enhance_brightness_low": 49.28568869957403,
+    "reject_brightness_high": 230.0,
+    "enhance_contrast_low": 9.797923524033157,
+    "reject_contrast_low": 4.898961762016579,
+    "max_saturated_fraction": 0.25,
+    "fitted_from": "800 training images; reject at p1, enhance at p5"
+  },
+  "trained_on": "APTOS 2019 train + EyePACS (patient-level split) [efficientnet_b0_eyepacs]",
+  "adopted_as_default": false
+}

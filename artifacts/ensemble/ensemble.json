@@ -1,0 +1,14 @@
+{
+  "members": [
+    "artifacts/efficientnet_b0_robust/best.pt",
+    "artifacts/efficientnet_b3_robust/best.pt"
+  ],
+  "tta": true,
+  "threshold": 0.6648616816078137,
+  "review_margin": 0.11398215160587356,
+  "temperatures": {
+    "efficientnet_b0_robust": 1.6489509393999884,
+    "efficientnet_b3_robust": 1.4224530239336797
+  },
+  "selected_on": "validation mean(QWK, ROC-AUC)"
+}

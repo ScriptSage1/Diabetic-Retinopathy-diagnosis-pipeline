@@ -1,0 +1,36 @@
+{
+ "image_id": "0318598cfd16",
+ "dataset_grade": 4,
+ "width": 2588,
+ "height": 1958,
+ "quality_status": "good",
+ "quality_reason": "sharpness, illumination, contrast and field of view are acceptable",
+ "model": "ensemble: b0_robust + b3_robust (+flip TTA)",
+ "grade": 2,
+ "grade_name": "2 Moderate NPDR",
+ "probs": [
+  0.0005569317498036965,
+  0.12590655238600723,
+  0.8273923242594347,
+  0.031857053113404754,
+  0.014287138491349764
+ ],
+ "p_referable": 0.8735365158641891,
+ "threshold": 0.6648616816078137,
+ "review_margin": 0.11398215160587356,
+ "decision": "refer",
+ "verdict": "Referral recommended",
+ "confidence": "Moderate",
+ "lesions_available": true,
+ "counts": {
+  "MA": 28,
+  "HE": 27,
+  "EX": 26,
+  "SE": 0
+ },
+ "ex_near_macula": 5,
+ "rule_grade": 1,
+ "cross_check": "classifier_only",
+ "cross_check_message": "The classifier flags referable DR, but the lesions found by the (limited) detector do not meet the rules' referable criteria: the flag is not corroborated by lesion evidence.",
+ "latency_s": 2.9
+}
